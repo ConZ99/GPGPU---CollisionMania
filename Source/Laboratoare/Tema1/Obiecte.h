@@ -10,7 +10,7 @@ namespace Obiecte {
 	Mesh *CreateMesh(const char * name, const std::vector<VertexFormat> &vertices, const std::vector<unsigned short> &indices);
 
 	Mesh* Cube(std::string name, glm::vec3 color);
+	Mesh* Box(std::string name, glm::vec3 color);
 	Mesh* Sphere(std::string name);
 	Mesh* Cylinder(std::string name);
-	Mesh* Heart(std::string name);
 }

@@ -18,7 +18,5 @@ void main(){
 
 	vec3 pos = v_position;
 
-	
-
 	gl_Position = Projection * View * Model * vec4(pos.x, pos.y, pos.z, 1.0);
 }

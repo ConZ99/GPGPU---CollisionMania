@@ -44,6 +44,32 @@ Mesh* Obiecte::CreateMesh(const char *name, const std::vector<VertexFormat> &ver
 	return mesh;
 }
 
+Mesh* Obiecte::Box(std::string name, glm::vec3 color)
+{
+	std::vector<VertexFormat> vertices =
+	{
+		VertexFormat(glm::vec3(-1, -1,  1), glm::vec3(0, 1, 1), color),
+		VertexFormat(glm::vec3(1, -1,  1), glm::vec3(1, 0, 1), color),
+		VertexFormat(glm::vec3(-1,  1,  1), glm::vec3(1, 0, 0), color),
+		VertexFormat(glm::vec3(1,  1,  1), glm::vec3(0, 1, 0), color),
+		VertexFormat(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), color),
+		VertexFormat(glm::vec3(1, -1, -1), glm::vec3(0, 1, 1), color),
+		VertexFormat(glm::vec3(-1,  1, -1), glm::vec3(1, 1, 0), color),
+		VertexFormat(glm::vec3(1,  1, -1), glm::vec3(0, 0, 1), color),
+	};
+
+	std::vector<unsigned short> indices =
+	{
+		2, 3, 7,		2, 7, 6,
+		1, 7, 3,		1, 5, 7,
+		6, 7, 4,		7, 5, 4,
+		0, 4, 1,		1, 4, 5,
+		2, 6, 4,		0, 2, 4,
+	};
+
+	return CreateMesh(name.c_str(), vertices, indices);
+}
+
 Mesh * Obiecte::Cube(std::string name, glm::vec3 color)
 {
 	std::vector<VertexFormat> vertices =
@@ -80,11 +106,5 @@ Mesh * Obiecte::Sphere(std::string name){
 Mesh * Obiecte::Cylinder(std::string name) {
 	Mesh* mesh = new Mesh("cylinder");
 	mesh->LoadMesh(RESOURCE_PATH::MODELS + "Primitives", "cylinder.obj");
-	return mesh;
-}
-
-Mesh * Obiecte::Heart(std::string name) {
-	Mesh* mesh = new Mesh(name);
-	mesh->LoadMesh(RESOURCE_PATH::MODELS + "Primitives", "heart.obj");
 	return mesh;
 }

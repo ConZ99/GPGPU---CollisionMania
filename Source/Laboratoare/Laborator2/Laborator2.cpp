@@ -17,6 +17,11 @@ Laborator2::~Laborator2()
 {
 
 }
+struct meshuri
+{
+	glm::vec3 posCurenta = glm::vec3(0, 0, 0);
+	Mesh* mesh;
+};
 
 void Laborator2::Init()
 {
@@ -27,12 +32,23 @@ void Laborator2::Init()
 		shader->CreateAndLink();
 		shaders[shader->GetName()] = shader;
 	}
-
+	
+	list<meshuri> cuburi;
+	Mesh* box = Obiecte::Box("box", glm::vec3(.8, .2, .8));
+	AddMeshToList(box);
 	Mesh* cub = Obiecte::Cube("cub", glm::vec3(.6, 0, .6));
 	AddMeshToList(cub);
-	Mesh* sfera = Obiecte::Cube("sfera", glm::vec3(0, 1, 0));
+	/*meshuri test = {
+		glm::vec3(0, 0, 5),
+		cub
+	};
+	cuburi.push_back(test);*/
+
+	Mesh* sfera = Obiecte::Sphere("sfera", glm::vec3(1, 1, 1));
+	sfera->SetDrawMode(GL_TRIANGLE_FAN);
 	AddMeshToList(sfera);
-	Mesh* cilindru = Obiecte::Cube("cilindru", glm::vec3(1, 0, 1));
+	Mesh* cilindru = Obiecte::Cylinder("cilindru", glm::vec3(1, 0, 1));
+	cilindru->SetDrawMode(GL_TRIANGLES);
 	AddMeshToList(cilindru);
 }
 
@@ -57,11 +73,14 @@ void Laborator2::Update(float deltaTimeSeconds)
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 
+	//box rendering
+	RenderMesh(meshes["box"], shaders["ShaderTema"], glm::vec3(0, 0, 0), glm::vec3(10.0f));
+
 	// render an object using colors from vertex
-	glm::mat4 modelMatrix = glm::mat4(1);
+	/*glm::mat4 modelMatrix = glm::mat4(1);
 	modelMatrix *= Transformari::Translate(x, -1 * deltaTimeSeconds , z);
-	RenderMesh(meshes["cub"], shaders["ShaderTema"], modelMatrix);
-	RenderMesh(meshes["sfera"], shaders["ShaderTema"], glm::vec3(0, 0, 5), glm::vec3(1.0f));
+	RenderMesh(meshes["cub"], shaders["ShaderTema"], modelMatrix);*/
+	RenderMesh(meshes["sfera"], shaders["ShaderTema"], glm::vec3(5, 5, 0), glm::vec3(1.0f));
 	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0), glm::vec3(2.0f));
 
 	glDisable(GL_CULL_FACE);
@@ -79,7 +98,13 @@ void Laborator2::OnInputUpdate(float deltaTime, int mods)
 
 void Laborator2::OnKeyPress(int key, int mods)
 {
+	if (key == GLFW_KEY_SPACE)
+	{
+		for (const auto it : meshes) {
+			std::cout << it.first << "at" << std::endl;
 
+		}
+	}
 }
 
 void Laborator2::OnKeyRelease(int key, int mods)
