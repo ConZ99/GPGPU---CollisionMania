@@ -85,9 +85,6 @@
     <ClCompile Include="..\Source\Laboratoare\Tema1\Camera.cpp">
       <Filter>Laboratoare\Tema1</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Laboratoare\Tema1\Obiecte.cpp">
-      <Filter>Laboratoare\Tema1</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Laboratoare\Tema1\Tema1.cpp">
       <Filter>Laboratoare\Tema1</Filter>
     </ClCompile>
@@ -167,9 +164,6 @@
       <Filter>Laboratoare\Tema1</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Laboratoare\Tema1\Header.h">
-      <Filter>Laboratoare\Tema1</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Laboratoare\Tema1\Obiecte.h">
       <Filter>Laboratoare\Tema1</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Laboratoare\Tema1\Transformari.h">

@@ -37,7 +37,6 @@
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Obiecte.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Transformari.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Camera.cpp" />
-    <ClCompile Include="..\Source\Laboratoare\Tema1\Obiecte.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Tema1.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Transformari.cpp" />
     <ClCompile Include="..\Source\Main.cpp" />
@@ -67,7 +66,6 @@
     <ClInclude Include="..\Source\Laboratoare\Laborator2\Transformari.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Camera.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Header.h" />
-    <ClInclude Include="..\Source\Laboratoare\Tema1\Obiecte.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Tema1.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Transformari.h" />
     <ClInclude Include="..\Source\Main.h" />
