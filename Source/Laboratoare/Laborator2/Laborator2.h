@@ -10,7 +10,7 @@ class Laborator2 : public SimpleScene
 		~Laborator2();
 
 		void Init() override;
-		float x= 0.0f, z = 0.0f;
+		float x= 0.0f, z = 0.0f, y = 0.0f;
 
 	private:
 		void FrameStart() override;

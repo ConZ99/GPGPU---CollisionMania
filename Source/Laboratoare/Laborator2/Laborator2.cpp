@@ -77,9 +77,11 @@ void Laborator2::Update(float deltaTimeSeconds)
 	RenderMesh(meshes["box"], shaders["ShaderTema"], glm::vec3(0, 0, 0), glm::vec3(10.0f));
 
 	// render an object using colors from vertex
-	/*glm::mat4 modelMatrix = glm::mat4(1);
-	modelMatrix *= Transformari::Translate(x, -1 * deltaTimeSeconds , z);
-	RenderMesh(meshes["cub"], shaders["ShaderTema"], modelMatrix);*/
+	glm::mat4 modelMatrix = glm::mat4(1);
+	y += -1 * deltaTimeSeconds;
+	glm::vec3(0, -1, 0);
+	modelMatrix *= Transformari::Translate(x, y, z);
+	RenderMesh(meshes["cub"], shaders["ShaderTema"], modelMatrix);
 	RenderMesh(meshes["sfera"], shaders["ShaderTema"], glm::vec3(5, 5, 0), glm::vec3(1.0f));
 	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0), glm::vec3(2.0f));
 
