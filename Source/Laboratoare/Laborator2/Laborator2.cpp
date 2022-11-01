@@ -31,6 +31,7 @@ void Laborator2::Init()
 		shader->AddShader("Source/Laboratoare/Laborator2/Shaders/FragmentShader.glsl", GL_FRAGMENT_SHADER);
 		shader->CreateAndLink();
 		shaders[shader->GetName()] = shader;
+		//test
 	}
 	
 	list<meshuri> cuburi;
