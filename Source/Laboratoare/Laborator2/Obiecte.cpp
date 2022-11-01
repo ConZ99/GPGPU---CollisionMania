@@ -80,14 +80,14 @@ Mesh* Obiecte::Cube(std::string name, glm::vec3 color)
 {
 	std::vector<VertexFormat> vertices =
 	{
-		VertexFormat(glm::vec3(-1, -1,  1), glm::vec3(0, 1, 1), color),
-		VertexFormat(glm::vec3(1, -1,  1), glm::vec3(1, 0, 1), color),
-		VertexFormat(glm::vec3(-1,  1,  1), glm::vec3(1, 0, 0), color),
-		VertexFormat(glm::vec3(1,  1,  1), glm::vec3(0, 1, 0), color),
-		VertexFormat(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), color),
-		VertexFormat(glm::vec3(1, -1, -1), glm::vec3(0, 1, 1), color),
-		VertexFormat(glm::vec3(-1,  1, -1), glm::vec3(1, 1, 0), color),
-		VertexFormat(glm::vec3(1,  1, -1), glm::vec3(0, 0, 1), color),
+		VertexFormat(glm::vec3(-.5, -.5, .5), glm::vec3(0, 1, 1), color),
+		VertexFormat(glm::vec3(.5, -.5, .5), glm::vec3(1, 0, 1), color),
+		VertexFormat(glm::vec3(-.5, .5, .5), glm::vec3(1, 0, 0), color),
+		VertexFormat(glm::vec3(.5, .5, .5), glm::vec3(0, 1, 0), color),
+		VertexFormat(glm::vec3(-.5, -.5, -.5), glm::vec3(1, 1, 1), color),
+		VertexFormat(glm::vec3(.5, -.5, -.5), glm::vec3(0, 1, 1), color),
+		VertexFormat(glm::vec3(-.5, .5, -.5), glm::vec3(1, 1, 0), color),
+		VertexFormat(glm::vec3(.5, .5, -.5), glm::vec3(0, 0, 1), color),
 	};
 
 	std::vector<unsigned short> indices =
@@ -119,8 +119,8 @@ Mesh* Obiecte::Sphere(std::string name, glm::vec3 color) {
 		k1 = i * (72 + 1);     // beginning of current stack
 		k2 = k1 + 72 + 1;      // beginning of next stack
 		stackAngle = 3.142 / 2 - i * stackStep;        // starting from pi/2 to -pi/2
-		xy = 1 * cosf(stackAngle);             // r * cos(u)
-		z = 1 * sinf(stackAngle);              // r * sin(u)
+		xy = 0.5 * cosf(stackAngle);             // r * cos(u)
+		z = .5 * sinf(stackAngle);              // r * sin(u)
 
 		
 		for (int j = 0; j <= 72; ++j, ++k1, ++k2)
@@ -170,15 +170,15 @@ Mesh* Obiecte::Cylinder(std::string name, glm::vec3 color) {
 
 	for (int i = 0; i < 360; i += 1) {
 		double heading = i * 3.142 / 180;
-		cerc_vertices.push_back(VertexFormat(glm::vec3(cos(heading) * radius, sin(heading) * radius, 0), glm::vec3(1, 1, 1)));
+		cerc_vertices.push_back(VertexFormat(glm::vec3(cos(heading) * radius, -.5, sin(heading) * radius), glm::vec3(1, 1, 1)));
 	}
 	for (int i = 0; i < 360; i += 1) {
 		double heading = i * 3.142 / 180;
-		cerc_vertices.push_back(VertexFormat(glm::vec3(cos(heading) * radius, sin(heading) * radius, 1), glm::vec3(1, 1, 1)));
+		cerc_vertices.push_back(VertexFormat(glm::vec3(cos(heading) * radius, .5, sin(heading) * radius), glm::vec3(1, 1, 1)));
 	}
 
-	int k1 = 0;                         // 1st vertex index at base
-	int k2 = 360 + 1;           // 1st vertex index at top
+	int k1 = 0;             // 1st vertex index at base
+	int k2 = 360;           // 1st vertex index at top
 
 	// indices for the side surface
 	for (int i = 0; i < 360; ++i, ++k1, ++k2)
