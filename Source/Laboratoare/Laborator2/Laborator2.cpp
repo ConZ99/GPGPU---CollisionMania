@@ -82,10 +82,7 @@ void Laborator2::Update(float deltaTimeSeconds)
 	RenderMesh(meshes["box"], shaders["ShaderTema"], glm::vec3(0, 0, 0), glm::vec3(boxSize));
 
 	// render an object using colors from vertex
-	glm::mat4 modelMatrix = glm::mat4(1);
-	y += -1 * deltaTimeSeconds;
-	glm::vec3 t = glm::vec3(0, -1, 0);
-	modelMatrix *= Transformari::Translate(x, y, z);
+	//fixed objects, just for testing, leave tf alone
 	RenderMesh(meshes["cub"], shaders["ShaderTema"], glm::vec3(0, 0, 0));
 	RenderMesh(meshes["sfera"], shaders["ShaderTema"], glm::vec3(-5, 0, 0));
 	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0));
@@ -95,7 +92,18 @@ void Laborator2::Update(float deltaTimeSeconds)
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
-		it->pozitiaCurenta += acceleratieGravitationala * deltaTimeSeconds;
+		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
+		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->fortaAplicataCurent.x >= 0)
+			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x = 0;
+		if (it->fortaAplicataCurent.y >= 0)
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y = 0;
+		if (it->fortaAplicataCurent.z >= 0)
+			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z = 0;
+		
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
 
@@ -155,7 +163,7 @@ glm::vec3 Laborator2::GetCoords()
 
 void Laborator2::AddCub(glm::vec3 pos)
 {
-	Item* cub = new Item(999, glm::vec3(0, 0, 0), pos, meshes["cub"]);
+	Item* cub = new Item(999, glm::vec3(1, 1, 0), pos, meshes["cub"]);
 	cuburi.push_back(cub);
 	cout << "Spawn de cub la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
