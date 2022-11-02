@@ -19,10 +19,6 @@ Laborator2::~Laborator2()
 {
 
 }
-struct meshuri
-{
-	
-};
 
 void Laborator2::Init()
 {
@@ -88,24 +84,10 @@ void Laborator2::Update(float deltaTimeSeconds)
 	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0));
 
 	cout << cuburi.size() << endl;
-	for (Item* it : cuburi) {
-		//verifica coliziuni
-		//schimba pozitia curenta bazat pe forte
-		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
-		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
-		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
-		if (it->fortaAplicataCurent.x >= 0)
-			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.x = 0;
-		if (it->fortaAplicataCurent.y >= 0)
-			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y = 0;
-		if (it->fortaAplicataCurent.z >= 0)
-			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.z = 0;
-		
-		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
-	}
+
+	renderCuburi(deltaTimeSeconds);
+	renderSfere(deltaTimeSeconds);
+	renderCilindri(deltaTimeSeconds);
 
 	glDisable(GL_CULL_FACE);
 }
@@ -141,41 +123,51 @@ bool Laborator2::coordsAreNotValid(glm::vec3 pos)
 glm::vec3 Laborator2::GetCoords()
 {
 	glm::vec3 coords;
-	//NU FACE RANDOM BINE!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	srand(time(0)); //srand are nev de un seed pt randomizare de numere GASESTE UN SEED MAI NOU
+	srand(time(0));
 	coords.x = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-	srand(time(0));
 	coords.y = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-	srand(time(0));
 	coords.z = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
 
 	while (coordsAreNotValid(coords)) {
 		srand(time(0));
 		coords.x = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-		srand(time(0));
 		coords.y = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-		srand(time(0));
 		coords.z = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
 	}
 
 	return coords;
 }
 
-void Laborator2::AddCub(glm::vec3 pos)
+glm::vec3 Laborator2::ApplyRandomForce()
 {
-	Item* cub = new Item(999, glm::vec3(1, 1, 0), pos, meshes["cub"]);
+	glm::vec3 force;
+	srand(time(0));
+	force.x = rand() % 2;
+	force.y = rand() % 2;
+	force.z = rand() % 2;
+
+	return force;
+}
+
+void Laborator2::AddCub(glm::vec3 pos, glm::vec3 force)
+{
+	Item* cub = new Item(999, force, pos, meshes["cub"]);
 	cuburi.push_back(cub);
 	cout << "Spawn de cub la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
-void Laborator2::AddSfera(glm::vec3 pos)
+void Laborator2::AddSfera(glm::vec3 pos, glm::vec3 force)
 {
-	//adauga buton separat, la fel ca la cuburi
+	Item* sfera = new Item(999, force, pos, meshes["sfera"]);
+	sfere.push_back(sfera);
+	cout << "Spawn de sfera la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
-void Laborator2::AddCilindru(glm::vec3 pos)
+void Laborator2::AddCilindru(glm::vec3 pos, glm::vec3 force)
 {
-	//adauga buton separat, la fel ca la cuburi
+	Item* cilindru = new Item(999, force, pos, meshes["cilindru"]);
+	cilindri.push_back(cilindru);
+	cout << "Spawn de cilindru la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
 void Laborator2::OnInputUpdate(float deltaTime, int mods)
@@ -187,9 +179,9 @@ void Laborator2::OnKeyPress(int key, int mods)
 {
 	if (key == GLFW_KEY_SPACE)
 	{
-		AddCub(GetCoords());
-		AddSfera(GetCoords());
-		AddCilindru(GetCoords());
+		AddCub(GetCoords(), ApplyRandomForce());
+		AddSfera(GetCoords(), ApplyRandomForce());
+		AddCilindru(GetCoords(), ApplyRandomForce());
 	}
 }
 
@@ -219,4 +211,67 @@ void Laborator2::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
 
 void Laborator2::OnWindowResize(int width, int height)
 {
+}
+
+void Laborator2::renderCuburi(float deltaTimeSeconds) {
+	for (Item* it : cuburi) {
+		//verifica coliziuni
+		//schimba pozitia curenta bazat pe forte
+		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
+		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
+		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->fortaAplicataCurent.x >= 0)
+			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x = 0;
+		if (it->fortaAplicataCurent.y >= 0)
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y = 0;
+		if (it->fortaAplicataCurent.z >= 0)
+			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z = 0;
+
+		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
+	}
+}
+void Laborator2::renderSfere(float deltaTimeSeconds)
+{
+	for (Item* it : sfere) {
+		//verifica coliziuni
+		//schimba pozitia curenta bazat pe forte
+		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
+		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
+		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->fortaAplicataCurent.x >= 0)
+			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x = 0;
+		if (it->fortaAplicataCurent.y >= 0)
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y = 0;
+		if (it->fortaAplicataCurent.z >= 0)
+			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z = 0;
+
+		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
+	}
+}
+void Laborator2::renderCilindri(float deltaTimeSeconds)
+{
+	for (Item* it : cilindri) {
+		//verifica coliziuni
+		//schimba pozitia curenta bazat pe forte
+		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
+		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
+		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->fortaAplicataCurent.x >= 0)
+			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x = 0;
+		if (it->fortaAplicataCurent.y >= 0)
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y = 0;
+		if (it->fortaAplicataCurent.z >= 0)
+			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z = 0;
+
+		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
+	}
 }

@@ -30,10 +30,14 @@ class Laborator2 : public SimpleScene
 		list<Item*> cilindri;
 
 		glm::vec3 GetCoords();
-		void AddCub(glm::vec3 pos);
-		void AddSfera(glm::vec3 pos);
-		void AddCilindru(glm::vec3 pos);
+		void AddCub(glm::vec3 pos, glm::vec3 force);
+		void AddSfera(glm::vec3 pos, glm::vec3 force);
+		void AddCilindru(glm::vec3 pos, glm::vec3 force);
 		bool coordsAreNotValid(glm::vec3 pos);
+		glm::vec3 ApplyRandomForce();
+		void renderCuburi(float deltaTimeSeconds);
+		void renderSfere(float deltaTimeSeconds);
+		void renderCilindri(float deltaTimeSeconds);
 
 	private:
 		void FrameStart() override;
