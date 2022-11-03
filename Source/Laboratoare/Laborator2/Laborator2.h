@@ -2,7 +2,7 @@
 
 #include <Component/SimpleScene.h>
 #include <Core/Engine.h>
-#include "../../../Visual Studio/Item.cpp"
+#include "Item.cpp"
 
 class Laborator2 : public SimpleScene
 {

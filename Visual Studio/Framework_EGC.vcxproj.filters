@@ -97,7 +97,7 @@
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Transformari.cpp">
       <Filter>Laboratoare\Laborator2</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
+    <ClCompile Include="..\Source\Laboratoare\Laborator2\Item.cpp">
       <Filter>Laboratoare\Laborator2</Filter>
     </ClCompile>
   </ItemGroup>

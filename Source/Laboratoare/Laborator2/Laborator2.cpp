@@ -7,7 +7,7 @@
 #include <Core/Engine.h>
 #include "Obiecte.h"
 #include "Transformari.h"
-#include "../../../Visual Studio/Item.cpp"
+#include "Item.cpp"
 
 using namespace std;
 

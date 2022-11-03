@@ -33,6 +33,7 @@
     <ClCompile Include="..\Source\Core\Window\WindowObject.cpp" />
     <ClCompile Include="..\Source\Core\World.cpp" />
     <ClCompile Include="..\Source\include\gl.cpp" />
+    <ClCompile Include="..\Source\Laboratoare\Laborator2\Item.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Laborator2.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Obiecte.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Transformari.cpp" />
@@ -40,7 +41,6 @@
     <ClCompile Include="..\Source\Laboratoare\Tema1\Tema1.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Transformari.cpp" />
     <ClCompile Include="..\Source\Main.cpp" />
-    <ClCompile Include="Item.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Component\CameraInput.h" />
