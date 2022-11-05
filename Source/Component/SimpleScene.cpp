@@ -33,7 +33,7 @@ void SimpleScene::InitResources()
 	camera = new Camera();
 	camera->SetPerspective(60, window->props.aspectRatio, 0.01f, 200);
 	camera->transform->SetMoveSpeed(2);
-	camera->transform->SetWorldPosition(glm::vec3(0, 1.6f, 2.5));
+	camera->transform->SetWorldPosition(glm::vec3(0, 2.0f, 20));
 	camera->transform->SetWorldRotation(glm::vec3(-15, 0, 0));
 	camera->Update();
 
