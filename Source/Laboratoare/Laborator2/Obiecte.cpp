@@ -114,6 +114,7 @@ Mesh* Obiecte::Sphere(std::string name, glm::vec3 color) {
 	float stackStep = 3.142 / 36;
 	float sectorAngle, stackAngle;
 	int k1, k2;
+
 	for (int i = 0; i <= 36; ++i)
 	{
 		k1 = i * (72 + 1);   

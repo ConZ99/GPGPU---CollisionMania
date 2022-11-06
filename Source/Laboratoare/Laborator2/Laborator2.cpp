@@ -143,7 +143,7 @@ glm::vec3 Laborator2::ApplyRandomForce()
 	glm::vec3 force;
 	srand(time(0));
 	force.x = rand() % 2;
-	force.y = rand() % 2;
+	force.y = 7;
 	force.z = rand() % 2;
 
 	return force;
@@ -180,8 +180,8 @@ void Laborator2::OnKeyPress(int key, int mods)
 	if (key == GLFW_KEY_SPACE)
 	{
 		AddCub(GetCoords(), ApplyRandomForce());
-		AddSfera(GetCoords(), ApplyRandomForce());
-		AddCilindru(GetCoords(), ApplyRandomForce());
+		//AddSfera(GetCoords(), ApplyRandomForce());
+		//AddCilindru(GetCoords(), ApplyRandomForce());
 	}
 }
 
@@ -218,17 +218,17 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
-		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
+		//cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
 		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.x >= 0)
-			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.x = 0;
+			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x -= frecareaCuAerul.x * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.y >= 0)
-			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y = 0;
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.z >= 0)
-			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.z = 0;
+			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z -= frecareaCuAerul.z * deltaTimeSeconds;
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
@@ -242,14 +242,14 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
 		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.x >= 0)
-			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.x = 0;
+			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x -= frecareaCuAerul.x * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.y >= 0)
-			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y = 0;
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.z >= 0)
-			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.z = 0;
+			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z -= frecareaCuAerul.z * deltaTimeSeconds;
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
@@ -263,14 +263,14 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
 		it->pozitiaCurenta += (acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.x >= 0)
-			it->fortaAplicataCurent.x -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.x = 0;
+			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x -= frecareaCuAerul.x * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.y >= 0)
-			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + .1) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y = 0;
+			it->fortaAplicataCurent.y -= (-acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
+		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.z >= 0)
-			it->fortaAplicataCurent.z -= .1 * deltaTimeSeconds;
-		else it->fortaAplicataCurent.z = 0;
+			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds;
+		else it->fortaAplicataCurent.z -= frecareaCuAerul.z * deltaTimeSeconds;
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
