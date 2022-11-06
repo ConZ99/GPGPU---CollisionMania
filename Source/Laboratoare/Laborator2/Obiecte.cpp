@@ -62,15 +62,15 @@ Mesh* Obiecte::Box(std::string name, glm::vec3 color)
 	{
 		
 		2, 3, 7,		2, 7, 6,
-		7, 3, 2,		6, 7, 2,//double
+		7, 3, 2,		6, 7, 2,
 		1, 7, 3,		1, 5, 7,
-		3, 7, 1,		7, 5, 1,//double
+		3, 7, 1,		7, 5, 1,
 		6, 7, 4,		7, 5, 4,
-		4, 7, 6,		4, 5, 7,//double
+		4, 7, 6,		4, 5, 7,
 		0, 4, 1,		1, 4, 5,
-		1, 4, 0,		5, 4, 1,//double
+		1, 4, 0,		5, 4, 1,
 		2, 6, 4,		0, 2, 4,
-		4, 6, 2,		4, 2, 0,//double
+		4, 6, 2,		4, 2, 0,
 	};
 
 	return CreateMesh(name.c_str(), vertices, indices);
@@ -107,8 +107,8 @@ Mesh* Obiecte::Sphere(std::string name, glm::vec3 color) {
 	std::vector<VertexFormat> cerc_vertices{};
 	std::vector<unsigned short> cerc_indices{};
 	
-	float x, y, z, xy;                              // vertex position
-	float nx, ny, nz, lengthInv = 1.0f / 1;    // vertex normal
+	float x, y, z, xy;  
+	float nx, ny, nz, lengthInv = 1.0f / 1;
 	int index = 1;
 	float sectorStep = 2 * 3.142 / 72;
 	float stackStep = 3.142 / 36;
@@ -116,12 +116,11 @@ Mesh* Obiecte::Sphere(std::string name, glm::vec3 color) {
 	int k1, k2;
 	for (int i = 0; i <= 36; ++i)
 	{
-		k1 = i * (72 + 1);     // beginning of current stack
-		k2 = k1 + 72 + 1;      // beginning of next stack
-		stackAngle = 3.142 / 2 - i * stackStep;        // starting from pi/2 to -pi/2
-		xy = 0.5 * cosf(stackAngle);             // r * cos(u)
-		z = .5 * sinf(stackAngle);              // r * sin(u)
-
+		k1 = i * (72 + 1);   
+		k2 = k1 + 72 + 1;    
+		stackAngle = 3.142 / 2 - i * stackStep; 
+		xy = 0.5 * cosf(stackAngle);    
+		z = .5 * sinf(stackAngle);    
 		
 		for (int j = 0; j <= 72; ++j, ++k1, ++k2)
 		{
@@ -132,7 +131,6 @@ Mesh* Obiecte::Sphere(std::string name, glm::vec3 color) {
 				cerc_indices.push_back(k1 + 1);
 			}
 
-			// k1+1 => k2 => k2+1
 			if (i != (36 - 1))
 			{
 				cerc_indices.push_back(k1 + 1);
@@ -140,13 +138,11 @@ Mesh* Obiecte::Sphere(std::string name, glm::vec3 color) {
 				cerc_indices.push_back(k2 + 1);
 			}
 
-			sectorAngle = j * sectorStep;           // starting from 0 to 2pi
+			sectorAngle = j * sectorStep;          
 
-			// vertex position (x, y, z)
-			x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
-			y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
+			x = xy * cosf(sectorAngle);            
+			y = xy * sinf(sectorAngle);    
 
-			// normalized vertex normal (nx, ny, nz)
 			nx = x * lengthInv;
 			ny = y * lengthInv;
 			nz = z * lengthInv;
@@ -177,27 +173,20 @@ Mesh* Obiecte::Cylinder(std::string name, glm::vec3 color) {
 		cerc_vertices.push_back(VertexFormat(glm::vec3(cos(heading) * radius, .5, sin(heading) * radius), glm::vec3(1, 1, 1)));
 	}
 
-	int k1 = 0;             // 1st vertex index at base
-	int k2 = 360;           // 1st vertex index at top
+	int k1 = 0;   
+	int k2 = 360; 
 
-	// indices for the side surface
 	for (int i = 0; i < 360; ++i, ++k1, ++k2)
 	{
-		// 2 triangles per sector
-		// k1 => k1+1 => k2
 		cerc_indices.push_back(k1);
 		cerc_indices.push_back(k1 + 1);
 		cerc_indices.push_back(k2);
 
-		// k2 => k1+1 => k2+1
 		cerc_indices.push_back(k2);
 		cerc_indices.push_back(k1 + 1);
 		cerc_indices.push_back(k2 + 1);
 	}
 
-	// indices for the base surface
-	//NOTE: baseCenterIndex and topCenterIndices are pre-computed during vertex generation
-	//      please see the previous code snippet
 	for (int i = 0, k = 0 + 1; i < 360; ++i, ++k)
 	{
 		if (i < 360 - 1)
@@ -206,7 +195,7 @@ Mesh* Obiecte::Cylinder(std::string name, glm::vec3 color) {
 			cerc_indices.push_back(k + 1);
 			cerc_indices.push_back(k);
 		}
-		else // last triangle
+		else
 		{
 			cerc_indices.push_back(0);
 			cerc_indices.push_back(1);
@@ -214,7 +203,6 @@ Mesh* Obiecte::Cylinder(std::string name, glm::vec3 color) {
 		}
 	}
 
-	// indices for the top surface
 	for (int i = 0, k = 360 + 1; i < 360; ++i, ++k)
 	{
 		if (i < 360 - 1)
@@ -223,14 +211,13 @@ Mesh* Obiecte::Cylinder(std::string name, glm::vec3 color) {
 			cerc_indices.push_back(k);
 			cerc_indices.push_back(k + 1);
 		}
-		else // last triangle
+		else
 		{
 			cerc_indices.push_back(360);
 			cerc_indices.push_back(k);
 			cerc_indices.push_back(360 + 1);
 		}
 	}
-
 
 	return CreateMesh(name.c_str(), cerc_vertices, cerc_indices);
 }
