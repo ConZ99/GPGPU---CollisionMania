@@ -15,6 +15,7 @@ class Laborator2 : public SimpleScene
 
 		float boxSize = 10.0f;
 		glm::vec3 frecareaCuAerul = glm::vec3(-.1, -.1, -.1);
+		glm::vec3 frecareaCuTerenul = glm::vec3(-2, -1, -2);
 
 		//box initializat si fixat in (0, 0, 0)
 		Item* box;

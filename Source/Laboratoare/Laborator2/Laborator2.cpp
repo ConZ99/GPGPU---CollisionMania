@@ -142,7 +142,7 @@ glm::vec3 Laborator2::ApplyRandomForce()
 {
 	glm::vec3 force;
 	srand(time(0));
-	force.x = rand() % 2;
+	force.x = -7;
 	force.y = 7;
 	force.z = rand() % 2;
 
@@ -219,16 +219,22 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 		//schimba pozitia curenta bazat pe forte
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
 		//cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
+
 		it->pozitiaCurenta += (it->acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
-		if (it->fortaAplicataCurent.x >= 0)
-			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds;
-		else it->fortaAplicataCurent.x -= frecareaCuAerul.x * deltaTimeSeconds;
-		if (it->fortaAplicataCurent.y >= 0)
+
+		if (it->fortaAplicataCurent.x > 0)
+			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds + it->frecarea.x * deltaTimeSeconds;
+		else if (it->fortaAplicataCurent.x < 0)
+			it->fortaAplicataCurent.x += -frecareaCuAerul.x * deltaTimeSeconds - it->frecarea.x * deltaTimeSeconds;
+
+		if (it->fortaAplicataCurent.y > 0)
 			it->fortaAplicataCurent.y -= (-it->acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
 		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
-		if (it->fortaAplicataCurent.z >= 0)
-			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds;
-		else it->fortaAplicataCurent.z -= frecareaCuAerul.z * deltaTimeSeconds;
+
+		if (it->fortaAplicataCurent.z > 0)
+			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds + it->frecarea.z * deltaTimeSeconds;
+		else if (it->fortaAplicataCurent.z < 0)
+			it->fortaAplicataCurent.z += -frecareaCuAerul.z * deltaTimeSeconds - it->frecarea.z * deltaTimeSeconds;
 
 		isCollided(it);
 
@@ -267,8 +273,8 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 		cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
 		it->pozitiaCurenta += (it->acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.x >= 0)
-			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds;
-		else it->fortaAplicataCurent.x -= frecareaCuAerul.x * deltaTimeSeconds;
+			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds + it->frecarea.x * deltaTimeSeconds;
+		else it->fortaAplicataCurent.x -= frecareaCuAerul.x * deltaTimeSeconds - it->frecarea.x * deltaTimeSeconds;
 		if (it->fortaAplicataCurent.y >= 0)
 			it->fortaAplicataCurent.y -= (-it->acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
 		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
@@ -293,17 +299,18 @@ void Laborator2::isCollided(Item* it)
 
 	if (fabs(pozitieAproximataX) + 0.6 > 10)
 	{
-		it->fortaAplicataCurent = glm::vec3(0, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
+		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
 	}
 
 	if (fabs(pozitieAproximataY) + 0.7 > 10)
 	{
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
 		it->acceleratieGravitationala = glm::vec3(0, 0, 0);
+		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
 
 	if (fabs(pozitieAproximataZ) + 0.6 > 10)
 	{
-		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, 0);
+		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}
 }
