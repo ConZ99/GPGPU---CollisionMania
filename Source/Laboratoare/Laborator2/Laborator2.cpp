@@ -89,6 +89,8 @@ void Laborator2::Update(float deltaTimeSeconds)
 	renderSfere(deltaTimeSeconds);
 	renderCilindri(deltaTimeSeconds);
 
+	checkCollisions();
+
 	glDisable(GL_CULL_FACE);
 }
 
@@ -313,4 +315,198 @@ void Laborator2::isCollided(Item* it)
 	{
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}
+}
+
+void Laborator2::checkCollision()
+{
+	//verificam fiecare sfera cu restul itemelor inclusiv alte sfere
+	bool done = false;
+	int fata = 0;
+	for (Item* cub : cuburi)
+	{
+		for (Item* it : sfere)
+		{
+			if (whereCollided(cub, it) != -1)
+			{
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+		for (Item* it : cuburi)
+		{
+			if (whereCollided(cub, it) != -1)
+			{
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+		for (Item* it : cilindri)
+		{
+			if (whereCollided(cub, it) != -1)
+			{
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+	}
+	for (Item* sfera : sfere)
+	{
+		for (Item* it : sfere)
+		{
+			if (whereCollided(sfera, it) != -1)
+			{
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+		for (Item* it : cuburi)
+		{
+			if (whereCollided(sfera, it) != -1)
+			{
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+		for (Item* it : cilindri)
+		{
+			if (whereCollided(sfera, it) != -1)
+			{
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+	}
+	for (Item* cilindru : cilindri)
+	{
+		for (Item* it : sfere)
+		{
+			if (whereCollided(cilindru, it) != -1)
+			{
+				//fata = fataLovita(cilindru, it);
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+		for (Item* it : cuburi)
+		{
+			if (whereCollided(cilindru, it) != -1)
+			{
+				//fata = fataLovita(cilindru, it);
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+		for (Item* it : cilindri)
+		{
+			if (whereCollided(cilindru, it) != -1)
+			{
+				//fata = fataLovita(cilindru, it);
+				done = true;
+				continue;
+			}
+		}
+		if (done) continue;
+	}
+}
+
+int Laborator2::fataLovita(Item* object, Item* obstacle)
+{
+	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
+	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
+	float planY = object->pozitiaCurenta.y - obstacle->pozitiaCurenta.y;
+
+	//sunt in range pe Z, se pot intersecta daca se sincronizeaza si X si Y
+	if (planZ >= 0 && planZ <= 1)
+	{
+		//object este in fata obstacle
+		return 1;
+	}
+	else if (planZ >= -1 && planZ <= 0)
+	{
+		//object este in spatele obstacle
+		return 2;
+	}
+
+	if (planX >= 0 && planX <= 1)
+	{
+		//object este in stanga obstacle
+		return 3;
+	}
+	else if (planX >= -1 && planX <= 0)
+	{
+		//object este in dreapta obstacle
+		return 4;
+	}
+
+	if (planY >= 0 && planY <= 1)
+	{
+		//object este sub obstacle
+		return 5;
+	}
+	else if (planY >= -1 && planY <= 0)
+	{
+		//object este deasupra obstacle
+		return 6;
+	}
+}
+
+int Laborator2::whereCollided(Item* object, Item* obstacle)
+{
+	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
+	int checkZ = 0; //-1 fata; 1 spate
+	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
+	int checkX = 0; //-1 stanga; 1 dreapa
+	float planY = object->pozitiaCurenta.y - obstacle->pozitiaCurenta.y;
+	int checkY = 0; //-1 sub; 1 deasupra
+
+	//sunt in range pe Z, se pot intersecta daca se sincronizeaza si X si Y
+	if (planZ >= 0 && planZ <= 1)
+	{
+		//object este in fata obstacle
+		checkZ = -1;
+	}
+	else if (planZ >= -1 && planZ <= 0)
+	{
+		//object este in spatele obstacle
+		checkZ = 1;
+	}
+
+	if (planX >= 0 && planX <= 1)
+	{
+		//object este in stanga obstacle
+		checkX = -1;
+	}
+	else if (planX >= -1 && planX <= 0)
+	{
+		//object este in dreapta obstacle
+		checkX = 1;
+	}
+
+	if (planY >= 0 && planY <= 1)
+	{
+		//object este sub obstacle
+		checkY = -1;
+	}
+	else if (planY >= -1 && planY <= 0)
+	{
+		//object este deasupra obstacle
+		checkY = 1;
+	}
+
+	if (checkZ != 0 && checkX != 0 && checkY != 0)
+	{
+		
+		//avem coliziune
+		return 1;
+	}
+	else
+		return -1;
 }
