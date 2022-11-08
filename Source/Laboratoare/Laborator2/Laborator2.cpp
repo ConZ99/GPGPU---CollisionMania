@@ -388,7 +388,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cilindru, it) != -1)
 			{
-				//fata = fataLovita(cilindru, it);
+				fata = fataLovita(cilindru, it);
 				done = true;
 				continue;
 			}
@@ -398,7 +398,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cilindru, it) != -1)
 			{
-				//fata = fataLovita(cilindru, it);
+				fata = fataLovita(cilindru, it);
 				done = true;
 				continue;
 			}
@@ -408,7 +408,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cilindru, it) != -1)
 			{
-				//fata = fataLovita(cilindru, it);
+				fata = fataLovita(cilindru, it);
 				done = true;
 				continue;
 			}
@@ -423,39 +423,18 @@ int Laborator2::fataLovita(Item* object, Item* obstacle)
 	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
 	float planY = object->pozitiaCurenta.y - obstacle->pozitiaCurenta.y;
 
-	//sunt in range pe Z, se pot intersecta daca se sincronizeaza si X si Y
-	if (planZ >= 0 && planZ <= 1)
-	{
-		//object este in fata obstacle
-		return 1;
-	}
-	else if (planZ >= -1 && planZ <= 0)
-	{
-		//object este in spatele obstacle
-		return 2;
-	}
-
-	if (planX >= 0 && planX <= 1)
-	{
-		//object este in stanga obstacle
-		return 3;
-	}
-	else if (planX >= -1 && planX <= 0)
-	{
-		//object este in dreapta obstacle
-		return 4;
-	}
-
-	if (planY >= 0 && planY <= 1)
-	{
-		//object este sub obstacle
-		return 5;
-	}
-	else if (planY >= -1 && planY <= 0)
-	{
-		//object este deasupra obstacle
-		return 6;
-	}
+	if (planZ > planX && planZ > planY)
+		return 1; //fata
+	if (planZ < planX && planZ < planY)
+		return 2; //spate
+	if (planX > planZ && planX > planY)
+		return 3; //dreapta
+	if (planX < planZ && planX < planY)
+		return 4; //stanga
+	if (planY > planX && planY > planZ)
+		return 5; //sus
+	if (planY < planX && planY < planZ)
+		return 6; //jos
 }
 
 int Laborator2::whereCollided(Item* object, Item* obstacle)
