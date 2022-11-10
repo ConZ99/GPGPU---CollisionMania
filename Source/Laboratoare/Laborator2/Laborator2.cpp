@@ -398,7 +398,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 		for (Item* it : cuburi)
 		{
 			if (whereCollided(sfera, it) != -1)
@@ -408,7 +411,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 		for (Item* it : cilindri)
 		{
 			if (whereCollided(sfera, it) != -1)
@@ -418,7 +424,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 	}
 	for (Item* cilindru : cilindri)
 	{
@@ -431,7 +440,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 		for (Item* it : cuburi)
 		{
 			if (whereCollided(cilindru, it) != -1)
@@ -441,7 +453,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 		for (Item* it : cilindri)
 		{
 			if (whereCollided(cilindru, it) != -1)
@@ -451,7 +466,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 	}
 }
 
