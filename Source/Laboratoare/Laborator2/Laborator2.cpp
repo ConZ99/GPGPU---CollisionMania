@@ -110,8 +110,6 @@ void Laborator2::Update(float deltaTimeSeconds)
 	renderSfere(deltaTimeSeconds);
 	renderCilindri(deltaTimeSeconds);
 
-	
-
 	checkCollision();
 
 	glDisable(GL_CULL_FACE);
@@ -176,8 +174,9 @@ glm::vec3 Laborator2::ApplyRandomForce()
 
 void Laborator2::AddCub(glm::vec3 pos, glm::vec3 force)
 {
-	Item* cub = new Item(999, force, pos, meshes["cub"]);
+	Item* cub = new Item(objId, force, pos, meshes["cub"]);
 	cuburi.push_back(cub);
+	objId++;
 	//cout << "Spawn de cub la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
@@ -347,6 +346,7 @@ void Laborator2::checkCollision()
 	int fata = 0;
 	for (Item* cub : cuburi)
 	{
+		cout << cub->IdObiect << endl;
 		for (Item* it : sfere)
 		{
 			if (whereCollided(cub, it) != -1)
@@ -356,7 +356,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done){
+			done = false;
+			continue;
+		}
 		for (Item* it : cuburi)
 		{
 			if (whereCollided(cub, it) != -1)
@@ -366,7 +369,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 		for (Item* it : cilindri)
 		{
 			if (whereCollided(cub, it) != -1)
@@ -376,7 +382,10 @@ void Laborator2::checkCollision()
 				continue;
 			}
 		}
-		if (done) continue;
+		if (done) {
+			done = false;
+			continue;
+		}
 	}
 	for (Item* sfera : sfere)
 	{
@@ -461,22 +470,37 @@ int Laborator2::fataLovita(Item* object, Item* obstacle)
 	}
 	if (planZ < planX && planZ < planY) {
 		cout << "fata" << " obiectul " << object->IdObiect << endl;
+		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->fortaAplicataCurent += glm::vec3(0, 0, -2);
+		obstacle->fortaAplicataCurent += glm::vec3(0, 0, 2);
 		return 2; //fata
 	}
 	if (planX > planZ && planX > planY) {
 		cout << "stanga" << " obiectul " << object->IdObiect << endl;
+		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->fortaAplicataCurent += glm::vec3(2, 0, 0);
+		obstacle->fortaAplicataCurent += glm::vec3(-2, 0, 0);
 		return 3; //stanga
 	}
 	if (planX < planZ && planX < planY) {
 		cout << "dreapta" << " obiectul " << object->IdObiect << endl;
+		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->fortaAplicataCurent += glm::vec3(-2, 0, 0);
+		obstacle->fortaAplicataCurent += glm::vec3(2, 0, 0);
 		return 4; //dreapta
 	}
 	if (planY > planX && planY > planZ) {
 		cout << "jos" << " obiectul " << object->IdObiect << endl;
+		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->fortaAplicataCurent += glm::vec3(0, 2, 0);
+		obstacle->fortaAplicataCurent += glm::vec3(0, 0, 0);
 		return 5; //jos
 	}
 	if (planY < planX && planY < planZ) {
 		cout << "sus" << " obiectul " << object->IdObiect << endl;
+		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->fortaAplicataCurent += glm::vec3(0, 0, 0);
+		obstacle->fortaAplicataCurent += glm::vec3(0, 2, 0);
 		return 6; //sus
 	}
 }

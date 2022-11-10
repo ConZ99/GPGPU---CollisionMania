@@ -12,6 +12,7 @@ class Laborator2 : public SimpleScene
 
 		void Init() override;
 		float x= 0.0f, z = 0.0f, y = 0.0f;
+		int objId = 5;
 
 		float boxSize = 10.0f;
 		glm::vec3 frecareaCuAerul = glm::vec3(-.1, -.1, -.1);
