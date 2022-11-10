@@ -34,16 +34,20 @@ void Laborator2::Init()
 		Mesh* Box = Obiecte::Box("box", glm::vec3(.8, .2, .8));
 		AddMeshToList(Box);
 
-		//initializam mesh box
+		//initializam mesh cub
 		Mesh* Cub = Obiecte::Cube("cub", glm::vec3(.6, 0, .6));
 		AddMeshToList(Cub);
 
-		//initializam mesh box
+		//initializam mesh obstacol DOAR PENTRU TESTARE
+		Mesh* obstacol = Obiecte::Cube("obstacol", glm::vec3(.6, 1, .6));
+		AddMeshToList(obstacol);
+
+		//initializam mesh sfera
 		Mesh* Sfera = Obiecte::Sphere("sfera", glm::vec3(1, 1, 1));
 		Sfera->SetDrawMode(GL_TRIANGLE_FAN);
 		AddMeshToList(Sfera);
 
-		//initializam mesh box
+		//initializam mesh cilindru
 		Mesh* Cilindru = Obiecte::Cylinder("cilindru", glm::vec3(1, 0, 1));
 		Cilindru->SetDrawMode(GL_TRIANGLES);
 		AddMeshToList(Cilindru);
@@ -52,6 +56,23 @@ void Laborator2::Init()
 		//box initializat si fixat in (0, 0, 0)
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
+
+	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["cub"]);
+	cuburi.push_back(cub);
+	/*Item* obstacolDinDreapta = new Item(2, glm::vec3(-1, 0, 0), glm::vec3(3, 0, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolDinDreapta);*/
+	/*Item* obstacolDinStanga = new Item(3, glm::vec3(1, 0, 0), glm::vec3(-3, 0, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolDinStanga);*/
+
+	/*Item* obstacolDinFata = new Item(2, glm::vec3(0, 0, -1), glm::vec3(.4, 0, 3), meshes["obstacol"]);
+	cuburi.push_back(obstacolDinFata);*/
+	Item* obstacolDinSpate = new Item(3, glm::vec3(0, 0, 1), glm::vec3(-.4, 0, -3), meshes["obstacol"]);
+	cuburi.push_back(obstacolDinSpate);
+
+	/*Item* obstacolDeSus = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, 3, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolDeSus);*/
+	/*Item* obstacolDeJos = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, -3, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolDeJos);*/
 }
 
 void Laborator2::FrameStart()
@@ -79,9 +100,9 @@ void Laborator2::Update(float deltaTimeSeconds)
 
 	// render an object using colors from vertex
 	//fixed objects, just for testing, leave tf alone
-	RenderMesh(meshes["cub"], shaders["ShaderTema"], glm::vec3(0, 0, 0));
+	/*RenderMesh(meshes["cub"], shaders["ShaderTema"], glm::vec3(0, 0, 0));
 	RenderMesh(meshes["sfera"], shaders["ShaderTema"], glm::vec3(-5, 0, 0));
-	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0));
+	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0));*/
 
 	//cout << cuburi.size() << endl;
 
@@ -89,7 +110,9 @@ void Laborator2::Update(float deltaTimeSeconds)
 	renderSfere(deltaTimeSeconds);
 	renderCilindri(deltaTimeSeconds);
 
-	checkCollisions();
+	
+
+	checkCollision();
 
 	glDisable(GL_CULL_FACE);
 }
@@ -328,6 +351,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cub, it) != -1)
 			{
+				fata = fataLovita(cub, it);
 				done = true;
 				continue;
 			}
@@ -337,6 +361,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cub, it) != -1)
 			{
+				fata = fataLovita(cub, it);
 				done = true;
 				continue;
 			}
@@ -346,6 +371,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cub, it) != -1)
 			{
+				fata = fataLovita(cub, it);
 				done = true;
 				continue;
 			}
@@ -358,6 +384,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(sfera, it) != -1)
 			{
+				fata = fataLovita(sfera, it);
 				done = true;
 				continue;
 			}
@@ -367,6 +394,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(sfera, it) != -1)
 			{
+				fata = fataLovita(sfera, it);
 				done = true;
 				continue;
 			}
@@ -376,6 +404,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(sfera, it) != -1)
 			{
+				fata = fataLovita(sfera, it);
 				done = true;
 				continue;
 			}
@@ -423,18 +452,33 @@ int Laborator2::fataLovita(Item* object, Item* obstacle)
 	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
 	float planY = object->pozitiaCurenta.y - obstacle->pozitiaCurenta.y;
 
-	if (planZ > planX && planZ > planY)
-		return 1; //fata
-	if (planZ < planX && planZ < planY)
-		return 2; //spate
-	if (planX > planZ && planX > planY)
-		return 3; //dreapta
-	if (planX < planZ && planX < planY)
-		return 4; //stanga
-	if (planY > planX && planY > planZ)
-		return 5; //sus
-	if (planY < planX && planY < planZ)
-		return 6; //jos
+	if (planZ > planX && planZ > planY) {
+		cout << "spate"  << " obiectul " << object->IdObiect << endl;
+		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->fortaAplicataCurent += glm::vec3(0, 0, 2);
+		obstacle->fortaAplicataCurent += glm::vec3(0, 0, -2);
+		return 1; //spate
+	}
+	if (planZ < planX && planZ < planY) {
+		cout << "fata" << " obiectul " << object->IdObiect << endl;
+		return 2; //fata
+	}
+	if (planX > planZ && planX > planY) {
+		cout << "stanga" << " obiectul " << object->IdObiect << endl;
+		return 3; //stanga
+	}
+	if (planX < planZ && planX < planY) {
+		cout << "dreapta" << " obiectul " << object->IdObiect << endl;
+		return 4; //dreapta
+	}
+	if (planY > planX && planY > planZ) {
+		cout << "jos" << " obiectul " << object->IdObiect << endl;
+		return 5; //jos
+	}
+	if (planY < planX && planY < planZ) {
+		cout << "sus" << " obiectul " << object->IdObiect << endl;
+		return 6; //sus
+	}
 }
 
 int Laborator2::whereCollided(Item* object, Item* obstacle)
