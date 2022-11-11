@@ -147,15 +147,15 @@ glm::vec3 Laborator2::GetCoords()
 {
 	glm::vec3 coords;
 	srand(time(0));
-	coords.x = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-	coords.y = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-	coords.z = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
+	coords.x = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
+	coords.y = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
+	coords.z = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 
 	while (coordsAreNotValid(coords)) {
 		srand(time(0));
-		coords.x = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-		coords.y = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
-		coords.z = (rand() % ((int)boxSize * 2 - 2)) - boxSize + 1;
+		coords.x = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
+		coords.y = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
+		coords.z = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 	}
 
 	return coords;
@@ -332,21 +332,21 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 
 void Laborator2::isCollided(Item* it)
 {
-	float pozitieAproximataX = (int)(it->pozitiaCurenta.x * 10 + .5);
-	pozitieAproximataX = (float)pozitieAproximataX / 10;
+	float pozitieAproximataX = (int)(it->pozitiaCurenta.x * boxSize + .5);
+	pozitieAproximataX = (float)pozitieAproximataX / boxSize;
 
-	float pozitieAproximataY = (int)(it->pozitiaCurenta.y * 10 + .5);
-	pozitieAproximataY = (float)pozitieAproximataY / 10;
+	float pozitieAproximataY = (int)(it->pozitiaCurenta.y * boxSize + .5);
+	pozitieAproximataY = (float)pozitieAproximataY / boxSize;
 
-	float pozitieAproximataZ = (int)(it->pozitiaCurenta.z * 10 + .5);
-	pozitieAproximataZ = (float)pozitieAproximataZ / 10;
+	float pozitieAproximataZ = (int)(it->pozitiaCurenta.z * boxSize + .5);
+	pozitieAproximataZ = (float)pozitieAproximataZ / boxSize;
 
-	if (fabs(pozitieAproximataX) + 0.6 > 10)
+	if (fabs(pozitieAproximataX) + 0.6 > boxSize)
 	{
 		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
 	}
 
-	if (fabs(pozitieAproximataY) + 0.7 > 10)
+	if (fabs(pozitieAproximataY) + 0.7 > boxSize)
 	{
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
 		it->acceleratieGravitationala = glm::vec3(0, 0, 0);

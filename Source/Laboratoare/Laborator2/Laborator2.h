@@ -14,7 +14,7 @@ class Laborator2 : public SimpleScene
 		float x= 0.0f, z = 0.0f, y = 0.0f;
 		int objId = 5;
 
-		float boxSize = 10.0f;
+		float boxSize = 14.0f;
 		glm::vec3 frecareaCuAerul = glm::vec3(-.1, -.1, -.1);
 		glm::vec3 frecareaCuTerenul = glm::vec3(-2, -1, -2);
 
