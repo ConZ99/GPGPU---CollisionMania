@@ -37,6 +37,10 @@
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Laborator2.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Obiecte.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Transformari.cpp" />
+    <ClCompile Include="..\Source\Laboratoare\StressTest1\Item.cpp" />
+    <ClCompile Include="..\Source\Laboratoare\StressTest1\StressTest1.cpp" />
+    <ClCompile Include="..\Source\Laboratoare\StressTest1\Obiecte.cpp" />
+    <ClCompile Include="..\Source\Laboratoare\StressTest1\Transformari.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Camera.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Tema1.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Tema1\Transformari.cpp" />
@@ -65,6 +69,9 @@
     <ClInclude Include="..\Source\Laboratoare\Laborator2\Laborator2.h" />
     <ClInclude Include="..\Source\Laboratoare\Laborator2\Obiecte.h" />
     <ClInclude Include="..\Source\Laboratoare\Laborator2\Transformari.h" />
+    <ClInclude Include="..\Source\Laboratoare\StressTest1\StressTest1.h" />
+    <ClInclude Include="..\Source\Laboratoare\StressTest1\Obiecte.h" />
+    <ClInclude Include="..\Source\Laboratoare\StressTest1\Transformari.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Camera.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Header.h" />
     <ClInclude Include="..\Source\Laboratoare\Tema1\Tema1.h" />
@@ -74,6 +81,8 @@
   <ItemGroup>
     <None Include="..\Source\Laboratoare\Laborator2\Shaders\FragmentShader.glsl" />
     <None Include="..\Source\Laboratoare\Laborator2\Shaders\VertexShader.glsl" />
+    <None Include="..\Source\Laboratoare\StressTest1\Shaders\FragmentShader.glsl" />
+    <None Include="..\Source\Laboratoare\StressTest1\Shaders\VertexShader.glsl" />
     <None Include="..\Source\Laboratoare\Tema1\Shaders\FragmentShader.glsl" />
     <None Include="..\Source\Laboratoare\Tema1\Shaders\FragmentShaderFuel.glsl" />
     <None Include="..\Source\Laboratoare\Tema1\Shaders\FragmentShaderHeart.glsl" />
