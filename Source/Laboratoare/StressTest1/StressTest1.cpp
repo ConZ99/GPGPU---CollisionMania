@@ -162,7 +162,6 @@ void StressTest1::AddCub(glm::vec3 pos, glm::vec3 force)
 	Item* cub = new Item(objId, force, pos, meshes["cub"]);
 	cuburi.push_back(cub);
 	objId++;
-	//cout << "Spawn de cub la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
 void StressTest1::AddSfera(glm::vec3 pos, glm::vec3 force)
@@ -170,7 +169,6 @@ void StressTest1::AddSfera(glm::vec3 pos, glm::vec3 force)
 	Item* sfera = new Item(objId, force, pos, meshes["sfera"]);
 	sfere.push_back(sfera);
 	objId++;
-	//cout << "Spawn de sfera la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
 void StressTest1::AddCilindru(glm::vec3 pos, glm::vec3 force)
@@ -178,7 +176,6 @@ void StressTest1::AddCilindru(glm::vec3 pos, glm::vec3 force)
 	Item* cilindru = new Item(objId, force, pos, meshes["cilindru"]);
 	cilindri.push_back(cilindru);
 	objId++;
-	//cout << "Spawn de cilindru la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
 void StressTest1::OnInputUpdate(float deltaTime, int mods)
@@ -188,18 +185,6 @@ void StressTest1::OnInputUpdate(float deltaTime, int mods)
 
 void StressTest1::OnKeyPress(int key, int mods)
 {
-	if (key == GLFW_KEY_P)
-	{
-		AddCub(GetCoords(), ApplyRandomForce());
-	}
-	if (key == GLFW_KEY_L)
-	{
-		AddSfera(GetCoords(), ApplyRandomForce());
-	}
-	if (key == GLFW_KEY_M)
-	{
-		AddCilindru(GetCoords(), ApplyRandomForce());
-	}
 }
 
 void StressTest1::OnKeyRelease(int key, int mods)
@@ -235,8 +220,6 @@ void StressTest1::renderCuburi(float deltaTimeSeconds) {
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
-		//cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
-
 		it->pozitiaCurenta += (it->acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.x > 0)
@@ -351,7 +334,6 @@ void StressTest1::checkCollision()
 	int fata = 0;
 	for (Item* cub : cuburi)
 	{
-		cout << cub->IdObiect << endl;
 		for (Item* it : sfere)
 		{
 			if (whereCollided(cub, it) != -1)
@@ -485,42 +467,36 @@ int StressTest1::fataLovita(Item* object, Item* obstacle)
 	float planY = object->pozitiaCurenta.y - obstacle->pozitiaCurenta.y;
 
 	if (planZ > planX && planZ > planY) {
-		cout << "spate"  << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->fortaAplicataCurent += glm::vec3(0, 0, 2);
 		obstacle->fortaAplicataCurent += glm::vec3(0, 0, -2);
 		return 1; //spate
 	}
 	if (planZ < planX && planZ < planY) {
-		cout << "fata" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->fortaAplicataCurent += glm::vec3(0, 0, -2);
 		obstacle->fortaAplicataCurent += glm::vec3(0, 0, 2);
 		return 2; //fata
 	}
 	if (planX > planZ && planX > planY) {
-		cout << "stanga" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->fortaAplicataCurent += glm::vec3(2, 0, 0);
 		obstacle->fortaAplicataCurent += glm::vec3(-2, 0, 0);
 		return 3; //stanga
 	}
 	if (planX < planZ && planX < planY) {
-		cout << "dreapta" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->fortaAplicataCurent += glm::vec3(-2, 0, 0);
 		obstacle->fortaAplicataCurent += glm::vec3(2, 0, 0);
 		return 4; //dreapta
 	}
 	if (planY > planX && planY > planZ) {
-		cout << "jos" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->fortaAplicataCurent += glm::vec3(0, 2, 0);
 		obstacle->fortaAplicataCurent += glm::vec3(0, 0, 0);
 		return 5; //jos
 	}
 	if (planY < planX && planY < planZ) {
-		cout << "sus" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->fortaAplicataCurent += glm::vec3(0, 0, 0);
 		obstacle->fortaAplicataCurent += glm::vec3(0, 2, 0);
