@@ -48,19 +48,19 @@ Mesh* Obiecte::Box(std::string name, glm::vec3 color)
 {
 	std::vector<VertexFormat> vertices =
 	{
-		VertexFormat(glm::vec3(-1, -1,  1), glm::vec3(0, 1, 1), color),
-		VertexFormat(glm::vec3(1, -1,  1), glm::vec3(1, 0, 1), color),
-		VertexFormat(glm::vec3(-1,  1,  1), glm::vec3(1, 0, 0), color),
-		VertexFormat(glm::vec3(1,  1,  1), glm::vec3(0, 1, 0), color),
-		VertexFormat(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), color),
-		VertexFormat(glm::vec3(1, -1, -1), glm::vec3(0, 1, 1), color),
-		VertexFormat(glm::vec3(-1,  1, -1), glm::vec3(1, 1, 0), color),
-		VertexFormat(glm::vec3(1,  1, -1), glm::vec3(0, 0, 1), color),
+		VertexFormat(glm::vec3(-1, -1,  1), glm::vec3(0, 1, 1), color -  glm::vec3(.5f, .1f, .5f)),
+		VertexFormat(glm::vec3(1, -1,  1), glm::vec3(1, 0, 1), color - glm::vec3(.5f, .1f, .5f)),
+		VertexFormat(glm::vec3(-1,  1,  1), glm::vec3(1, 0, 0), color + glm::vec3(.5f, .6f, .2f)),
+		VertexFormat(glm::vec3(1,  1,  1), glm::vec3(0, 1, 0), color + glm::vec3(.5f, .6f, .2f)),
+		VertexFormat(glm::vec3(-1, -1, -1), glm::vec3(1, 1, 1), color - glm::vec3(.5f, .1f, .5f)),
+		VertexFormat(glm::vec3(1, -1, -1), glm::vec3(0, 1, 1), color - glm::vec3(.5f, .1f, .5f)),
+		VertexFormat(glm::vec3(-1,  1, -1), glm::vec3(1, 1, 0), color + glm::vec3(.5f, .6f, .2f)),
+		VertexFormat(glm::vec3(1,  1, -1), glm::vec3(0, 0, 1), color + glm::vec3(.5f, .6f, .2f)),
 	};
 
 	std::vector<unsigned short> indices =
 	{
-		
+		1, 2, 3,        1, 0, 2,
 		2, 3, 7,		2, 7, 6,
 		7, 3, 2,		6, 7, 2,
 		1, 7, 3,		1, 5, 7,
