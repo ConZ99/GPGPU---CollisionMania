@@ -57,7 +57,7 @@ void StressTest1::Init()
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
 
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		AddSfera(GetCoords(), ApplyRandomForce());
 	}
@@ -65,7 +65,7 @@ void StressTest1::Init()
 	{
 		AddCub(GetCoords(), ApplyRandomForce());
 	}
-	for (int i = 0; i < 250; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		AddCilindru(GetCoords(), ApplyRandomForce());
 	}
@@ -321,7 +321,7 @@ void StressTest1::isCollided(Item* it)
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
 
-	if (fabs(pozitieAproximataZ) + 0.6 > 10)
+	if (fabs(pozitieAproximataZ) + 0.6 > boxSize)
 	{
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}

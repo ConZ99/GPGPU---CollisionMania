@@ -66,13 +66,13 @@ void Laborator2::Init()
 
 	/*Item* obstacolDinFata = new Item(2, glm::vec3(0, 0, -1), glm::vec3(.4, 0, 3), meshes["obstacol"]);
 	cuburi.push_back(obstacolDinFata);*/
-	Item* obstacolDinSpate = new Item(3, glm::vec3(0, 0, 1), glm::vec3(-.4, 0, -3), meshes["obstacol"]);
-	cuburi.push_back(obstacolDinSpate);
+	/*Item* obstacolDinSpate = new Item(3, glm::vec3(0, 0, 1), glm::vec3(-.4, 0, -3), meshes["obstacol"]);
+	cuburi.push_back(obstacolDinSpate);*/
 
 	/*Item* obstacolDeSus = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, 3, 0), meshes["obstacol"]);
 	cuburi.push_back(obstacolDeSus);*/
-	/*Item* obstacolDeJos = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, -3, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolDeJos);*/
+	Item* obstacolDeJos = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, -3, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolDeJos);
 }
 
 void Laborator2::FrameStart()
@@ -97,14 +97,6 @@ void Laborator2::Update(float deltaTimeSeconds)
 
 	//box rendering
 	RenderMesh(meshes["box"], shaders["ShaderTema"], glm::vec3(0, 0, 0), glm::vec3(boxSize));
-
-	// render an object using colors from vertex
-	//fixed objects, just for testing, leave tf alone
-	/*RenderMesh(meshes["cub"], shaders["ShaderTema"], glm::vec3(0, 0, 0));
-	RenderMesh(meshes["sfera"], shaders["ShaderTema"], glm::vec3(-5, 0, 0));
-	RenderMesh(meshes["cilindru"], shaders["ShaderTema"], glm::vec3(5, 0, 0));*/
-
-	//cout << cuburi.size() << endl;
 
 	renderCuburi(deltaTimeSeconds);
 	renderSfere(deltaTimeSeconds);
@@ -146,13 +138,11 @@ bool Laborator2::coordsAreNotValid(glm::vec3 pos)
 glm::vec3 Laborator2::GetCoords()
 {
 	glm::vec3 coords;
-	srand(time(0));
 	coords.x = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 	coords.y = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 	coords.z = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 
 	while (coordsAreNotValid(coords)) {
-		srand(time(0));
 		coords.x = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 		coords.y = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
 		coords.z = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
@@ -164,9 +154,8 @@ glm::vec3 Laborator2::GetCoords()
 glm::vec3 Laborator2::ApplyRandomForce()
 {
 	glm::vec3 force;
-	srand(time(0));
-	force.x = -7;
-	force.y = 7;
+	force.x = (rand() % 2 - 1) * 5;
+	force.y = (rand() % 2 - 1) * 7;
 	force.z = rand() % 2;
 
 	return force;
@@ -214,6 +203,27 @@ void Laborator2::OnKeyPress(int key, int mods)
 	if (key == GLFW_KEY_M)
 	{
 		AddCilindru(GetCoords(), ApplyRandomForce());
+	}
+	if (key == GLFW_KEY_R)
+	{
+		for (Item* it : cuburi)
+		{
+			it->acceleratieGravitationala = glm::vec3(0, -4, 0);
+			it->pozitiaCurenta = GetCoords();
+			it->fortaAplicataCurent = ApplyRandomForce();
+		}
+		for (Item* it : sfere)
+		{
+			it->acceleratieGravitationala = glm::vec3(0, -4, 0);
+			it->pozitiaCurenta = GetCoords();
+			it->fortaAplicataCurent = ApplyRandomForce();
+		}
+		for (Item* it : cilindri)
+		{
+			it->acceleratieGravitationala = glm::vec3(0, -4, 0);
+			it->pozitiaCurenta = GetCoords();
+			it->fortaAplicataCurent = ApplyRandomForce();
+		}
 	}
 }
 
