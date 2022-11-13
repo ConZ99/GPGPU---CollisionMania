@@ -11,10 +11,10 @@ class StressTest1 : public SimpleScene
 		~StressTest1();
 
 		void Init() override;
-		float x= 0.0f, z = 0.0f, y = 0.0f;
+		float x = 0.0f, z = 0.0f, y = 0.0f;
 		int objId = 5;
 
-		float boxSize = 50.0f;
+		float boxSize = 25.0f;
 		glm::vec3 frecareaCuAerul = glm::vec3(-.1, -.1, -.1);
 		glm::vec3 frecareaCuTerenul = glm::vec3(-2, -1, -2);
 
@@ -40,9 +40,9 @@ class StressTest1 : public SimpleScene
 		void renderSfere(float deltaTimeSeconds);
 		void renderCilindri(float deltaTimeSeconds);
 		void isCollided(Item* it);
-		void checkCollision();
+		void checkCollision(float deltaTimeSeconds);
 		int whereCollided(Item* object, Item* obstacle);
-		int fataLovita(Item* object, Item* obstacle);
+		int fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds);
 
 	private:
 		void FrameStart() override;
