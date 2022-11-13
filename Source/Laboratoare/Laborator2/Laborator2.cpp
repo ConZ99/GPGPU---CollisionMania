@@ -57,22 +57,27 @@ void Laborator2::Init()
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
 
-	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["cub"]);
+	Item* cub = new Item(1, glm::vec3(-1, 0, 0), glm::vec3(1, 1, 0), meshes["cub"]);
 	cuburi.push_back(cub);
-	/*Item* obstacolDinDreapta = new Item(2, glm::vec3(-1, 0, 0), glm::vec3(3, 0, 0), meshes["obstacol"]);
+
+	Item* obstacolFata = new Item(2, glm::vec3(2, 0, 0), glm::vec3(-3, 1, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolFata);
+
+	/*Item* obstacolDinDreapta = new Item(2, glm::vec3(-2, 0, 0), glm::vec3(3, 0, 0), meshes["obstacol"]);
 	cuburi.push_back(obstacolDinDreapta);*/
-	/*Item* obstacolDinStanga = new Item(3, glm::vec3(1, 0, 0), glm::vec3(-3, 0, 0), meshes["obstacol"]);
+	/*Item* obstacolDinStanga = new Item(3, glm::vec3(2, 0, 0), glm::vec3(-3, 0, 0), meshes["obstacol"]);
 	cuburi.push_back(obstacolDinStanga);*/
 
-	/*Item* obstacolDinFata = new Item(2, glm::vec3(0, 0, -1), glm::vec3(.4, 0, 3), meshes["obstacol"]);
+	/*Item* obstacolDinFata = new Item(2, glm::vec3(0, 0, -2), glm::vec3(.4, 0, 3), meshes["obstacol"]);
 	cuburi.push_back(obstacolDinFata);*/
-	/*Item* obstacolDinSpate = new Item(3, glm::vec3(0, 0, 1), glm::vec3(-.4, 0, -3), meshes["obstacol"]);
+	/*Item* obstacolDinSpate = new Item(3, glm::vec3(0, 0, 2), glm::vec3(-.4, 0, -3), meshes["obstacol"]);
 	cuburi.push_back(obstacolDinSpate);*/
 
 	/*Item* obstacolDeSus = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, 3, 0), meshes["obstacol"]);
 	cuburi.push_back(obstacolDeSus);*/
-	Item* obstacolDeJos = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, -3, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolDeJos);
+
+	/*Item* obstacolDeJos = new Item(2, glm::vec3(0, 6, 0), glm::vec3(0, -3, 0), meshes["obstacol"]);
+	cuburi.push_back(obstacolDeJos);*/
 }
 
 void Laborator2::FrameStart()
@@ -154,7 +159,7 @@ glm::vec3 Laborator2::GetCoords()
 glm::vec3 Laborator2::ApplyRandomForce()
 {
 	glm::vec3 force;
-	force.x = 8;//(rand() % 2 - 1) * 5;
+	force.x = (rand() % 2 - 1) * 5;
 	force.y = (rand() % 2 - 1) * 7;
 	force.z = rand() % 2;
 
@@ -413,28 +418,28 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 
 void Laborator2::isCollided(Item* it)
 {
-	float pozitieAproximataX = (int)(it->pozitiaCurenta.x * boxSize + .5);
-	pozitieAproximataX = (float)pozitieAproximataX / boxSize;
+	float pozitieAproximataX = (int)(it->pozitiaCurenta.x * 10 + .5);
+	pozitieAproximataX = (float)pozitieAproximataX / 10;
 
-	float pozitieAproximataY = (int)(it->pozitiaCurenta.y * boxSize + .5);
-	pozitieAproximataY = (float)pozitieAproximataY / boxSize;
+	float pozitieAproximataY = (int)(it->pozitiaCurenta.y * 10 + .5);
+	pozitieAproximataY = (float)pozitieAproximataY / 10;
 
-	float pozitieAproximataZ = (int)(it->pozitiaCurenta.z * boxSize + .5);
-	pozitieAproximataZ = (float)pozitieAproximataZ / boxSize;
+	float pozitieAproximataZ = (int)(it->pozitiaCurenta.z * 10 + .5);
+	pozitieAproximataZ = (float)pozitieAproximataZ / 10;
 
 	if (fabs(pozitieAproximataX) + 0.6 > boxSize)
 	{
 		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
 	}
 
-	if (fabs(pozitieAproximataY) + 0.7 > boxSize)
+	if (fabs(pozitieAproximataY) + 0.7 > boxSize && fabs(pozitieAproximataY) - 0.7 <= boxSize)
 	{
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
 		it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
 
-	if (fabs(pozitieAproximataZ) + 0.6 > 10)
+	if (fabs(pozitieAproximataZ) + 0.6 > boxSize)
 	{
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}
@@ -586,6 +591,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	if (planZ > planX && planZ > planY) {
 		cout << "spate" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->pozitiaCurenta.z = obstacle->pozitiaCurenta.z + 1;
 
 		if (obstacle->fortaAplicataCurent.z > 0 && round(object->fortaAplicataCurent.z) == 0)
 		{
@@ -603,6 +609,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	if (planZ < planX && planZ < planY) {
 		cout << "fata" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->pozitiaCurenta.z = obstacle->pozitiaCurenta.z - 1;
 
 		if (obstacle->fortaAplicataCurent.z > 0 && object->fortaAplicataCurent.z > 0)
 		{
@@ -640,8 +647,9 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	if (planX > planZ && planX > planY) {
 		cout << "stanga" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->pozitiaCurenta.x = obstacle->pozitiaCurenta.x + 1;
 
-		/*if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x < 0)
+		if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x < 0)
 		{
 			object->fortaAplicataCurent.x += -obstacleForce.x / 2;
 			obstacle->fortaAplicataCurent.x += objectForce.x / 2;
@@ -651,12 +659,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 			object->fortaAplicataCurent.x += obstacleForce.x / 2;
 			obstacle->fortaAplicataCurent.x += -objectForce.x / 2;
 		}
-		else if (obstacle->fortaAplicataCurent.x > 0 && object->fortaAplicataCurent.x < 0)
-		{
-			object->fortaAplicataCurent.x = -objectForce.x / 2 + obstacleForce.x / 2;
-			obstacle->fortaAplicataCurent.x = -obstacleForce.x / 2 + objectForce.x / 2;
-		}*/
-		if (obstacle->fortaAplicataCurent.x > 0 && round(object->fortaAplicataCurent.x) == 0)
+		else if (obstacle->fortaAplicataCurent.x > 0 && round(object->fortaAplicataCurent.x) == 0)
 		{
 			object->fortaAplicataCurent.x = obstacleForce.x / 2;
 			obstacle->fortaAplicataCurent.x = obstacleForce.x / 3;
@@ -666,17 +669,18 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 			object->fortaAplicataCurent.x = objectForce.x / 3;
 			obstacle->fortaAplicataCurent.x = objectForce.x / 2;
 		}
-		/*else if (round(obstacle->fortaAplicataCurent.x + object->fortaAplicataCurent.x) == 0)
+		else if (round(obstacle->fortaAplicataCurent.x + object->fortaAplicataCurent.x) == 0)
 		{
 			object->fortaAplicataCurent.x = 0;
 			obstacle->fortaAplicataCurent.x = 0;
-		}*/
+		}
 
 		return 3; //stanga
 	}
 	if (planX < planZ && planX < planY) {
 		cout << "dreapta" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->pozitiaCurenta.x = obstacle->pozitiaCurenta.x - 1;
 
 		if (obstacle->fortaAplicataCurent.x > 0 && object->fortaAplicataCurent.x > 0)
 		{
@@ -714,6 +718,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	if (planY > planX && planY > planZ) {
 		cout << "jos" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
+		object->pozitiaCurenta.y = obstacle->pozitiaCurenta.y + 1;
 
 		if (obstacle->acceleratieGravitationala.y == 0)
 		{
@@ -768,6 +773,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	}
 	if (planY < planX && planY < planZ) {
 		cout << "sus" << " obiectul " << object->IdObiect << endl;
+		object->pozitiaCurenta.y = obstacle->pozitiaCurenta.y - 1;
 
 		if (object->acceleratieGravitationala.y == 0)
 		{
