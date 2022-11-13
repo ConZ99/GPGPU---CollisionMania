@@ -102,7 +102,7 @@ void Laborator2::Update(float deltaTimeSeconds)
 	renderSfere(deltaTimeSeconds);
 	renderCilindri(deltaTimeSeconds);
 
-	checkCollision();
+	checkCollision(deltaTimeSeconds);
 
 	glDisable(GL_CULL_FACE);
 }
@@ -154,7 +154,7 @@ glm::vec3 Laborator2::GetCoords()
 glm::vec3 Laborator2::ApplyRandomForce()
 {
 	glm::vec3 force;
-	force.x = (rand() % 2 - 1) * 5;
+	force.x = 8;//(rand() % 2 - 1) * 5;
 	force.y = (rand() % 2 - 1) * 7;
 	force.z = rand() % 2;
 
@@ -262,7 +262,18 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
 		//cout << "Spawn de cub la: x = " << it->fortaAplicataCurent.x << " y = " << it->fortaAplicataCurent.y << " z = " << it->fortaAplicataCurent.z << endl;
 
-		it->pozitiaCurenta += (it->acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->cadere == 0)
+			it->normala.y = it->fortaAplicataCurent.y;
+		else if(it->cadere == 1)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+		}
+		else if (it->cadere == 2)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y;
+		}
+
+		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.x > 0)
 			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds + it->frecarea.x * deltaTimeSeconds;
@@ -270,8 +281,9 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 			it->fortaAplicataCurent.x += -frecareaCuAerul.x * deltaTimeSeconds - it->frecarea.x * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.y > 0)
-			it->fortaAplicataCurent.y -= (-it->acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
+			it->fortaAplicataCurent.y += (it->acceleratieGravitationala.y - frecareaCuAerul.y) * deltaTimeSeconds;
+		else if (it->fortaAplicataCurent.y <= 0)
+			it->fortaAplicataCurent.y += (it->acceleratieGravitationala.y - frecareaCuAerul.y) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.z > 0)
 			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds + it->frecarea.z * deltaTimeSeconds;
@@ -279,6 +291,17 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 			it->fortaAplicataCurent.z += -frecareaCuAerul.z * deltaTimeSeconds - it->frecarea.z * deltaTimeSeconds;
 
 		isCollided(it);
+
+		if (it->cadere == 0)
+			it->normala.y = it->fortaAplicataCurent.y;
+		else if (it->cadere == 1)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+		}
+		else if (it->cadere == 2)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y;
+		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
@@ -290,7 +313,18 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
-		it->pozitiaCurenta += (it->acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->cadere == 0)
+			it->normala.y = it->fortaAplicataCurent.y;
+		else if (it->cadere == 1)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+		}
+		else if (it->cadere == 2)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y;
+		}
+
+		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.x > 0)
 			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds + it->frecarea.x * deltaTimeSeconds;
@@ -298,8 +332,9 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 			it->fortaAplicataCurent.x += -frecareaCuAerul.x * deltaTimeSeconds - it->frecarea.x * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.y > 0)
-			it->fortaAplicataCurent.y -= (-it->acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
+			it->fortaAplicataCurent.y += (it->acceleratieGravitationala.y - frecareaCuAerul.y) * deltaTimeSeconds;
+		else if (it->fortaAplicataCurent.y <= 0)
+			it->fortaAplicataCurent.y += (it->acceleratieGravitationala.y - frecareaCuAerul.y) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.z > 0)
 			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds + it->frecarea.z * deltaTimeSeconds;
@@ -307,6 +342,17 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 			it->fortaAplicataCurent.z += -frecareaCuAerul.z * deltaTimeSeconds - it->frecarea.z * deltaTimeSeconds;
 
 		isCollided(it);
+
+		if (it->cadere == 0)
+			it->normala.y = it->fortaAplicataCurent.y;
+		else if (it->cadere == 1)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+		}
+		else if (it->cadere == 2)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y;
+		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
@@ -318,7 +364,18 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
 		//daca are o forta aplicata deja, aia scade in delta time seconds si se aplica incet incet gravitatia
-		it->pozitiaCurenta += (it->acceleratieGravitationala + it->fortaAplicataCurent) * deltaTimeSeconds;
+		if (it->cadere == 0)
+			it->normala.y = it->fortaAplicataCurent.y;
+		else if (it->cadere == 1)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+		}
+		else if (it->cadere == 2)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y;
+		}
+
+		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.x > 0)
 			it->fortaAplicataCurent.x += frecareaCuAerul.x * deltaTimeSeconds + it->frecarea.x * deltaTimeSeconds;
@@ -326,8 +383,9 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 			it->fortaAplicataCurent.x += -frecareaCuAerul.x * deltaTimeSeconds - it->frecarea.x * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.y > 0)
-			it->fortaAplicataCurent.y -= (-it->acceleratieGravitationala.y + frecareaCuAerul.y) * deltaTimeSeconds;
-		else it->fortaAplicataCurent.y -= frecareaCuAerul.y * deltaTimeSeconds;
+			it->fortaAplicataCurent.y += (it->acceleratieGravitationala.y - frecareaCuAerul.y) * deltaTimeSeconds;
+		else if (it->fortaAplicataCurent.y <= 0)
+			it->fortaAplicataCurent.y += (it->acceleratieGravitationala.y - frecareaCuAerul.y) * deltaTimeSeconds;
 
 		if (it->fortaAplicataCurent.z > 0)
 			it->fortaAplicataCurent.z += frecareaCuAerul.z * deltaTimeSeconds + it->frecarea.z * deltaTimeSeconds;
@@ -336,9 +394,22 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 
 		isCollided(it);
 
+		if (it->cadere == 0)
+			it->normala.y = it->fortaAplicataCurent.y;
+		else if (it->cadere == 1)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+		}
+		else if (it->cadere == 2)
+		{
+			it->normala.y = -it->acceleratieGravitationala.y;
+		}
+
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
 	}
 }
+
+//trebuie sa sara putin + sa se opreasca la 0
 
 void Laborator2::isCollided(Item* it)
 {
@@ -369,7 +440,7 @@ void Laborator2::isCollided(Item* it)
 	}
 }
 
-void Laborator2::checkCollision()
+void Laborator2::checkCollision(float deltaTimeSeconds)
 {
 	//verificam fiecare sfera cu restul itemelor inclusiv alte sfere
 	bool done = false;
@@ -381,7 +452,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cub, it) != -1)
 			{
-				fata = fataLovita(cub, it);
+				fata = fataLovita(cub, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -394,7 +465,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cub, it) != -1)
 			{
-				fata = fataLovita(cub, it);
+				fata = fataLovita(cub, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -407,7 +478,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cub, it) != -1)
 			{
-				fata = fataLovita(cub, it);
+				fata = fataLovita(cub, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -423,7 +494,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(sfera, it) != -1)
 			{
-				fata = fataLovita(sfera, it);
+				fata = fataLovita(sfera, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -436,7 +507,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(sfera, it) != -1)
 			{
-				fata = fataLovita(sfera, it);
+				fata = fataLovita(sfera, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -449,7 +520,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(sfera, it) != -1)
 			{
-				fata = fataLovita(sfera, it);
+				fata = fataLovita(sfera, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -465,7 +536,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cilindru, it) != -1)
 			{
-				fata = fataLovita(cilindru, it);
+				fata = fataLovita(cilindru, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -478,7 +549,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cilindru, it) != -1)
 			{
-				fata = fataLovita(cilindru, it);
+				fata = fataLovita(cilindru, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -491,7 +562,7 @@ void Laborator2::checkCollision()
 		{
 			if (whereCollided(cilindru, it) != -1)
 			{
-				fata = fataLovita(cilindru, it);
+				fata = fataLovita(cilindru, it, deltaTimeSeconds);
 				done = true;
 				continue;
 			}
@@ -503,52 +574,223 @@ void Laborator2::checkCollision()
 	}
 }
 
-int Laborator2::fataLovita(Item* object, Item* obstacle)
+int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 {
 	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
 	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
 	float planY = object->pozitiaCurenta.y - obstacle->pozitiaCurenta.y;
 
+	glm::vec3 objectForce = object->fortaAplicataCurent;
+	glm::vec3 obstacleForce = obstacle->fortaAplicataCurent;
+
 	if (planZ > planX && planZ > planY) {
-		cout << "spate"  << " obiectul " << object->IdObiect << endl;
+		cout << "spate" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
-		object->fortaAplicataCurent += glm::vec3(0, 0, 2);
-		obstacle->fortaAplicataCurent += glm::vec3(0, 0, -2);
+
+		if (obstacle->fortaAplicataCurent.z > 0 && round(object->fortaAplicataCurent.z) == 0)
+		{
+			object->fortaAplicataCurent.z = obstacleForce.z / 2;
+			obstacle->fortaAplicataCurent.z = obstacleForce.z / 2;
+		}
+		else if (round(obstacle->fortaAplicataCurent.z) == 0 && object->fortaAplicataCurent.z < 0)
+		{
+			object->fortaAplicataCurent.z = objectForce.z / 2;
+			obstacle->fortaAplicataCurent.z = objectForce.z / 2;
+		}
+
 		return 1; //spate
 	}
 	if (planZ < planX && planZ < planY) {
 		cout << "fata" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
-		object->fortaAplicataCurent += glm::vec3(0, 0, -2);
-		obstacle->fortaAplicataCurent += glm::vec3(0, 0, 2);
+
+		if (obstacle->fortaAplicataCurent.z > 0 && object->fortaAplicataCurent.z > 0)
+		{
+			object->fortaAplicataCurent.z += -obstacleForce.z / 2;
+			obstacle->fortaAplicataCurent.z += objectForce.z / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.z < 0 && object->fortaAplicataCurent.z < 0)
+		{
+			object->fortaAplicataCurent.z += obstacleForce.z / 2;
+			obstacle->fortaAplicataCurent.z += -objectForce.z / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.z < 0 && object->fortaAplicataCurent.z > 0)
+		{
+			object->fortaAplicataCurent.z = -objectForce.z / 2 + obstacleForce.z / 2;
+			obstacle->fortaAplicataCurent.z = -obstacleForce.z / 2 + objectForce.z / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.z < 0 && round(object->fortaAplicataCurent.z) == 0)
+		{
+			object->fortaAplicataCurent.z = obstacleForce.z / 2;
+			obstacle->fortaAplicataCurent.z = obstacleForce.z / 2;
+		}
+		else if (round(obstacle->fortaAplicataCurent.z) == 0 && object->fortaAplicataCurent.z > 0)
+		{
+			object->fortaAplicataCurent.z = objectForce.z / 2;
+			obstacle->fortaAplicataCurent.z = objectForce.z / 2;
+		}
+		else if (round(obstacle->fortaAplicataCurent.z + object->fortaAplicataCurent.z) == 0)
+		{
+			object->fortaAplicataCurent.z = object->fortaAplicataCurent.x/3;
+			obstacle->fortaAplicataCurent.z = -object->fortaAplicataCurent.x/3;
+		}
+
 		return 2; //fata
 	}
 	if (planX > planZ && planX > planY) {
 		cout << "stanga" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
-		object->fortaAplicataCurent += glm::vec3(2, 0, 0);
-		obstacle->fortaAplicataCurent += glm::vec3(-2, 0, 0);
+
+		/*if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x < 0)
+		{
+			object->fortaAplicataCurent.x += -obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x += objectForce.x / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.x > 0 && object->fortaAplicataCurent.x > 0)
+		{
+			object->fortaAplicataCurent.x += obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x += -objectForce.x / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.x > 0 && object->fortaAplicataCurent.x < 0)
+		{
+			object->fortaAplicataCurent.x = -objectForce.x / 2 + obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x = -obstacleForce.x / 2 + objectForce.x / 2;
+		}*/
+		if (obstacle->fortaAplicataCurent.x > 0 && round(object->fortaAplicataCurent.x) == 0)
+		{
+			object->fortaAplicataCurent.x = obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x = obstacleForce.x / 3;
+		}
+		else if (round(obstacle->fortaAplicataCurent.x) == 0 && object->fortaAplicataCurent.x < 0)
+		{
+			object->fortaAplicataCurent.x = objectForce.x / 3;
+			obstacle->fortaAplicataCurent.x = objectForce.x / 2;
+		}
+		/*else if (round(obstacle->fortaAplicataCurent.x + object->fortaAplicataCurent.x) == 0)
+		{
+			object->fortaAplicataCurent.x = 0;
+			obstacle->fortaAplicataCurent.x = 0;
+		}*/
+
 		return 3; //stanga
 	}
 	if (planX < planZ && planX < planY) {
 		cout << "dreapta" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
-		object->fortaAplicataCurent += glm::vec3(-2, 0, 0);
-		obstacle->fortaAplicataCurent += glm::vec3(2, 0, 0);
+
+		if (obstacle->fortaAplicataCurent.x > 0 && object->fortaAplicataCurent.x > 0)
+		{
+			object->fortaAplicataCurent.x += -obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x += objectForce.x / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x < 0)
+		{
+			object->fortaAplicataCurent.x += obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x += -objectForce.x / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x > 0)
+		{
+			object->fortaAplicataCurent.x = -objectForce.x/2 + obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x = -obstacleForce.x/2 + objectForce.x / 2;
+		}
+		else if (obstacle->fortaAplicataCurent.x < 0 && round(object->fortaAplicataCurent.x) == 0)
+		{
+			object->fortaAplicataCurent.x = obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x = obstacleForce.x / 3;
+		}
+		else if (round(obstacle->fortaAplicataCurent.x) == 0 && object->fortaAplicataCurent.x > 0)
+		{
+			object->fortaAplicataCurent.x = objectForce.x / 3;
+			obstacle->fortaAplicataCurent.x = objectForce.x / 2;
+		}
+		else if (round(obstacle->fortaAplicataCurent.x + object->fortaAplicataCurent.x) == 0)
+		{
+			object->fortaAplicataCurent.x = object->fortaAplicataCurent.z/2;
+			obstacle->fortaAplicataCurent.x = object->fortaAplicataCurent.z/2;
+		}
+
 		return 4; //dreapta
 	}
 	if (planY > planX && planY > planZ) {
 		cout << "jos" << " obiectul " << object->IdObiect << endl;
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
-		object->fortaAplicataCurent += glm::vec3(0, 2, 0);
-		obstacle->fortaAplicataCurent += glm::vec3(0, 0, 0);
+
+		if (obstacle->acceleratieGravitationala.y == 0)
+		{
+			if (round(object->fortaAplicataCurent.y) / 2 > 0)
+			{
+				object->fortaAplicataCurent = glm::vec3(0, object->fortaAplicataCurent.y / 2, 0);
+				object->cadere = 1;
+				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
+				cout << (int)object->fortaAplicataCurent.y/2 << endl;
+			}
+			else if (round(object->fortaAplicataCurent.y) / 2 < 0)
+			{
+				object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 2, 0);
+				object->cadere = 1;
+				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
+				cout << object->fortaAplicataCurent.y << endl;
+			}
+			else if (round(object->fortaAplicataCurent.y) / 2 == 0)
+			{
+				object->fortaAplicataCurent = glm::vec3(0, 0, 0);
+				object->cadere = 2;
+			}
+		}
+
+		if (obstacle->acceleratieGravitationala.y != 0)
+		{
+			if (obstacle->fortaAplicataCurent.y + obstacle->acceleratieGravitationala.y > 0)
+			{
+				if (int(object->fortaAplicataCurent.y / 4) != 0)
+				{
+					object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 4, 0);
+					object->cadere = 1;
+					object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
+
+				}
+				else
+				{
+					object->fortaAplicataCurent = glm::vec3(0, 0, 0);
+					object->cadere = 2;
+				}
+
+				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y;
+			}
+
+			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
+			{
+				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y/3;
+			}
+		}
+
 		return 5; //jos
 	}
 	if (planY < planX && planY < planZ) {
 		cout << "sus" << " obiectul " << object->IdObiect << endl;
-		//putem baga aici aplicarea fortelor celor doua obiecte ex:
-		object->fortaAplicataCurent += glm::vec3(0, 0, 0);
-		obstacle->fortaAplicataCurent += glm::vec3(0, 2, 0);
+
+		if (object->acceleratieGravitationala.y == 0)
+		{
+			object->fortaAplicataCurent.y = 0;
+		}
+
+		if (object->acceleratieGravitationala.y != 0)
+		{
+			if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
+			{
+				object->fortaAplicataCurent += glm::vec3(0, obstacle->fortaAplicataCurent.y/3, 0);
+				//object->cadere = 1;
+				//object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
+			}
+			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y > 0)
+			{
+				object->fortaAplicataCurent += glm::vec3(0, obstacle->fortaAplicataCurent.y, 0);
+				//object->cadere = 2;
+				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y;
+			}
+
+		}
+
 		return 6; //sus
 	}
 }

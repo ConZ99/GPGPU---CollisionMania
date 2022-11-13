@@ -40,9 +40,9 @@ class Laborator2 : public SimpleScene
 		void renderSfere(float deltaTimeSeconds);
 		void renderCilindri(float deltaTimeSeconds);
 		void isCollided(Item* it);
-		void checkCollision();
+		void checkCollision(float deltaTimeSeconds);
 		int whereCollided(Item* object, Item* obstacle);
-		int fataLovita(Item* object, Item* obstacle);
+		int fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds);
 
 	private:
 		void FrameStart() override;
