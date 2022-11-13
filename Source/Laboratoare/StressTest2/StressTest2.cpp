@@ -1,4 +1,4 @@
-#include "Laborator2.h"
+#include "StressTest2.h"
 
 #include <vector>
 #include <iostream>
@@ -11,21 +11,21 @@
 
 using namespace std;
 
-Laborator2::Laborator2()
+StressTest2::StressTest2()
 {
 }
 
-Laborator2::~Laborator2()
+StressTest2::~StressTest2()
 {
 
 }
 
-void Laborator2::Init()
+void StressTest2::Init()
 {
 	{
 		Shader* shader = new Shader("ShaderTema");
-		shader->AddShader("Source/Laboratoare/Laborator2/Shaders/VertexShader.glsl", GL_VERTEX_SHADER);
-		shader->AddShader("Source/Laboratoare/Laborator2/Shaders/FragmentShader.glsl", GL_FRAGMENT_SHADER);
+		shader->AddShader("Source/Laboratoare/StressTest2/Shaders/VertexShader.glsl", GL_VERTEX_SHADER);
+		shader->AddShader("Source/Laboratoare/StressTest2/Shaders/FragmentShader.glsl", GL_FRAGMENT_SHADER);
 		shader->CreateAndLink();
 		shaders[shader->GetName()] = shader;
 	}
@@ -57,30 +57,21 @@ void Laborator2::Init()
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
 
-	Item* cub = new Item(1, glm::vec3(-1, 0, 0), glm::vec3(1, 1, 0), meshes["cub"]);
-	cuburi.push_back(cub);
-
-	Item* obstacolFata = new Item(2, glm::vec3(2, 0, 0), glm::vec3(-3, 1, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolFata);
-
-	/*Item* obstacolDinDreapta = new Item(2, glm::vec3(-2, 0, 0), glm::vec3(3, 0, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolDinDreapta);*/
-	/*Item* obstacolDinStanga = new Item(3, glm::vec3(2, 0, 0), glm::vec3(-3, 0, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolDinStanga);*/
-
-	/*Item* obstacolDinFata = new Item(2, glm::vec3(0, 0, -2), glm::vec3(.4, 0, 3), meshes["obstacol"]);
-	cuburi.push_back(obstacolDinFata);*/
-	/*Item* obstacolDinSpate = new Item(3, glm::vec3(0, 0, 2), glm::vec3(-.4, 0, -3), meshes["obstacol"]);
-	cuburi.push_back(obstacolDinSpate);*/
-
-	/*Item* obstacolDeSus = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, 3, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolDeSus);*/
-
-	/*Item* obstacolDeJos = new Item(2, glm::vec3(0, 6, 0), glm::vec3(0, -3, 0), meshes["obstacol"]);
-	cuburi.push_back(obstacolDeJos);*/
+	for (int i = 0; i < 250; i++)
+	{
+		AddSfera(GetCoords(), ApplyRandomForce());
+	}
+	for (int i = 0; i < 500; i++)
+	{
+		AddCub(GetCoords(), ApplyRandomForce());
+	}
+	for (int i = 0; i < 1000; i++)
+	{
+		AddCilindru(GetCoords(), ApplyRandomForce());
+	}
 }
 
-void Laborator2::FrameStart()
+void StressTest2::FrameStart()
 {
 	// clears the color buffer (using the previously set color) and depth buffer
 	glClearColor(0, 0, 0, 1);
@@ -91,7 +82,7 @@ void Laborator2::FrameStart()
 	glViewport(0, 0, resolution.x, resolution.y);
 }
 
-void Laborator2::Update(float deltaTimeSeconds)
+void StressTest2::Update(float deltaTimeSeconds)
 {
 	glLineWidth(3);
 	glPointSize(5);
@@ -112,12 +103,12 @@ void Laborator2::Update(float deltaTimeSeconds)
 	glDisable(GL_CULL_FACE);
 }
 
-void Laborator2::FrameEnd()
+void StressTest2::FrameEnd()
 {
 	DrawCoordinatSystem();
 }
 
-bool Laborator2::coordsAreNotValid(glm::vec3 pos)
+bool StressTest2::coordsAreNotValid(glm::vec3 pos)
 {
 	for (Item* it : cuburi) {
 		if (pos.x > it->pozitiaCurenta.x - 1 && pos.x < it->pozitiaCurenta.x + 1)
@@ -140,7 +131,7 @@ bool Laborator2::coordsAreNotValid(glm::vec3 pos)
 	return false;
 }
 
-glm::vec3 Laborator2::GetCoords()
+glm::vec3 StressTest2::GetCoords()
 {
 	glm::vec3 coords;
 	coords.x = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
@@ -156,7 +147,7 @@ glm::vec3 Laborator2::GetCoords()
 	return coords;
 }
 
-glm::vec3 Laborator2::ApplyRandomForce()
+glm::vec3 StressTest2::ApplyRandomForce()
 {
 	glm::vec3 force;
 	force.x = (rand() % 2 - 1) * 5;
@@ -166,7 +157,7 @@ glm::vec3 Laborator2::ApplyRandomForce()
 	return force;
 }
 
-void Laborator2::AddCub(glm::vec3 pos, glm::vec3 force)
+void StressTest2::AddCub(glm::vec3 pos, glm::vec3 force)
 {
 	Item* cub = new Item(objId, force, pos, meshes["cub"]);
 	cuburi.push_back(cub);
@@ -174,7 +165,7 @@ void Laborator2::AddCub(glm::vec3 pos, glm::vec3 force)
 	//cout << "Spawn de cub la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
-void Laborator2::AddSfera(glm::vec3 pos, glm::vec3 force)
+void StressTest2::AddSfera(glm::vec3 pos, glm::vec3 force)
 {
 	Item* sfera = new Item(objId, force, pos, meshes["sfera"]);
 	sfere.push_back(sfera);
@@ -182,7 +173,7 @@ void Laborator2::AddSfera(glm::vec3 pos, glm::vec3 force)
 	//cout << "Spawn de sfera la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
-void Laborator2::AddCilindru(glm::vec3 pos, glm::vec3 force)
+void StressTest2::AddCilindru(glm::vec3 pos, glm::vec3 force)
 {
 	Item* cilindru = new Item(objId, force, pos, meshes["cilindru"]);
 	cilindri.push_back(cilindru);
@@ -190,12 +181,12 @@ void Laborator2::AddCilindru(glm::vec3 pos, glm::vec3 force)
 	//cout << "Spawn de cilindru la: x = " << pos.x << " y = " << pos.y << " z = " << pos.z << endl;
 }
 
-void Laborator2::OnInputUpdate(float deltaTime, int mods)
+void StressTest2::OnInputUpdate(float deltaTime, int mods)
 {
 
 }
 
-void Laborator2::OnKeyPress(int key, int mods)
+void StressTest2::OnKeyPress(int key, int mods)
 {
 	if (key == GLFW_KEY_P)
 	{
@@ -232,35 +223,35 @@ void Laborator2::OnKeyPress(int key, int mods)
 	}
 }
 
-void Laborator2::OnKeyRelease(int key, int mods)
+void StressTest2::OnKeyRelease(int key, int mods)
 {
 	// add key release event
 }
 
-void Laborator2::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
+void StressTest2::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
 {
 	// add mouse move event
 }
 
-void Laborator2::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
+void StressTest2::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
 {
 	// add mouse button press event
 }
 
-void Laborator2::OnMouseBtnRelease(int mouseX, int mouseY, int button, int mods)
+void StressTest2::OnMouseBtnRelease(int mouseX, int mouseY, int button, int mods)
 {
 	// add mouse button release event
 }
 
-void Laborator2::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
+void StressTest2::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
 {
 }
 
-void Laborator2::OnWindowResize(int width, int height)
+void StressTest2::OnWindowResize(int width, int height)
 {
 }
 
-void Laborator2::renderCuburi(float deltaTimeSeconds) {
+void StressTest2::renderCuburi(float deltaTimeSeconds) {
 	for (Item* it : cuburi) {
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
@@ -269,7 +260,7 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 
 		if (it->cadere == 0)
 			it->normala.y = it->fortaAplicataCurent.y;
-		else if(it->cadere == 1)
+		else if (it->cadere == 1)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
 		}
@@ -312,7 +303,7 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 	}
 }
 
-void Laborator2::renderSfere(float deltaTimeSeconds)
+void StressTest2::renderSfere(float deltaTimeSeconds)
 {
 	for (Item* it : sfere) {
 		//verifica coliziuni
@@ -363,7 +354,7 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 	}
 }
 
-void Laborator2::renderCilindri(float deltaTimeSeconds)
+void StressTest2::renderCilindri(float deltaTimeSeconds)
 {
 	for (Item* it : cilindri) {
 		//verifica coliziuni
@@ -416,7 +407,7 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 
 //trebuie sa sara putin + sa se opreasca la 0
 
-void Laborator2::isCollided(Item* it)
+void StressTest2::isCollided(Item* it)
 {
 	if (it->pozitiaCurenta.x > boxSize - .45)
 	{
@@ -446,7 +437,7 @@ void Laborator2::isCollided(Item* it)
 	}
 }
 
-void Laborator2::checkCollision(float deltaTimeSeconds)
+void StressTest2::checkCollision(float deltaTimeSeconds)
 {
 	//verificam fiecare sfera cu restul itemelor inclusiv alte sfere
 	bool done = false;
@@ -463,7 +454,7 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 				continue;
 			}
 		}
-		if (done){
+		if (done) {
 			done = false;
 			continue;
 		}
@@ -580,7 +571,7 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 	}
 }
 
-int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
+int StressTest2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 {
 	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
 	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
@@ -639,8 +630,8 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		}
 		else if (round(obstacle->fortaAplicataCurent.z + object->fortaAplicataCurent.z) == 0)
 		{
-			object->fortaAplicataCurent.z = object->fortaAplicataCurent.x/3;
-			obstacle->fortaAplicataCurent.z = -object->fortaAplicataCurent.x/3;
+			object->fortaAplicataCurent.z = object->fortaAplicataCurent.x / 3;
+			obstacle->fortaAplicataCurent.z = -object->fortaAplicataCurent.x / 3;
 		}
 
 		return 2; //fata
@@ -695,8 +686,8 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		}
 		else if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x > 0)
 		{
-			object->fortaAplicataCurent.x = -objectForce.x/2 + obstacleForce.x / 2;
-			obstacle->fortaAplicataCurent.x = -obstacleForce.x/2 + objectForce.x / 2;
+			object->fortaAplicataCurent.x = -objectForce.x / 2 + obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x = -obstacleForce.x / 2 + objectForce.x / 2;
 		}
 		else if (obstacle->fortaAplicataCurent.x < 0 && round(object->fortaAplicataCurent.x) == 0)
 		{
@@ -710,8 +701,8 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		}
 		else if (round(obstacle->fortaAplicataCurent.x + object->fortaAplicataCurent.x) == 0)
 		{
-			object->fortaAplicataCurent.x = object->fortaAplicataCurent.z/2;
-			obstacle->fortaAplicataCurent.x = object->fortaAplicataCurent.z/2;
+			object->fortaAplicataCurent.x = object->fortaAplicataCurent.z / 2;
+			obstacle->fortaAplicataCurent.x = object->fortaAplicataCurent.z / 2;
 		}
 
 		return 4; //dreapta
@@ -728,7 +719,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 				object->fortaAplicataCurent = glm::vec3(0, object->fortaAplicataCurent.y / 2, 0);
 				object->cadere = 1;
 				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
-				cout << (int)object->fortaAplicataCurent.y/2 << endl;
+				cout << (int)object->fortaAplicataCurent.y / 2 << endl;
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 < 0)
 			{
@@ -766,7 +757,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
 			{
-				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y/3;
+				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y / 3;
 			}
 		}
 
@@ -785,7 +776,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		{
 			if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
 			{
-				object->fortaAplicataCurent += glm::vec3(0, obstacle->fortaAplicataCurent.y/3, 0);
+				object->fortaAplicataCurent += glm::vec3(0, obstacle->fortaAplicataCurent.y / 3, 0);
 				//object->cadere = 1;
 				//object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 			}
@@ -802,7 +793,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	}
 }
 
-int Laborator2::whereCollided(Item* object, Item* obstacle)
+int StressTest2::whereCollided(Item* object, Item* obstacle)
 {
 	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
 	int checkZ = 0; //-1 fata; 1 spate
@@ -847,7 +838,7 @@ int Laborator2::whereCollided(Item* object, Item* obstacle)
 
 	if (checkZ != 0 && checkX != 0 && checkY != 0)
 	{
-		
+
 		//avem coliziune
 		return 1;
 	}

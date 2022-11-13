@@ -40,6 +40,18 @@
     <Filter Include="Laboratoare\StressTest1\Shaders">
       <UniqueIdentifier>{9ae243c7-7870-42f7-b056-8ecc65693a3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Laboratoare\StressTest2">
+      <UniqueIdentifier>{6001af3f-1d6d-4ade-b988-6e8d03e194fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Laboratoare\StressTest2\Shaders">
+      <UniqueIdentifier>{55e78eb6-b812-406c-8524-e0450d2ebc3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Laboratoare\StressTest3">
+      <UniqueIdentifier>{146c142a-d777-4f36-8bca-a50966a21386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Laboratoare\StressTest3\Shaders">
+      <UniqueIdentifier>{86ae25b7-b410-454a-a325-ac531a2e9217}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Core\Engine.cpp">
@@ -117,6 +129,30 @@
     </ClCompile>
     <ClCompile Include="..\Source\Laboratoare\StressTest1\Transformari.cpp">
       <Filter>Laboratoare\StressTest1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest2\Item.cpp">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest2\Obiecte.cpp">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest2\StressTest2.cpp">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest2\Transformari.cpp">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest3\Item.cpp">
+      <Filter>Laboratoare\StressTest3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest3\Obiecte.cpp">
+      <Filter>Laboratoare\StressTest3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest3\StressTest3.cpp">
+      <Filter>Laboratoare\StressTest3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Laboratoare\StressTest3\Transformari.cpp">
+      <Filter>Laboratoare\StressTest3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +242,24 @@
     <ClInclude Include="..\Source\Laboratoare\StressTest1\Transformari.h">
       <Filter>Laboratoare\StressTest1</Filter>
     </ClInclude>
+    <ClInclude Include="..\Source\Laboratoare\StressTest2\Obiecte.h">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Laboratoare\StressTest2\StressTest2.h">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Laboratoare\StressTest2\Transformari.h">
+      <Filter>Laboratoare\StressTest2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Laboratoare\StressTest3\Obiecte.h">
+      <Filter>Laboratoare\StressTest3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Laboratoare\StressTest3\StressTest3.h">
+      <Filter>Laboratoare\StressTest3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Laboratoare\StressTest3\Transformari.h">
+      <Filter>Laboratoare\StressTest3</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -238,6 +292,18 @@
     </None>
     <None Include="..\Source\Laboratoare\StressTest1\Shaders\VertexShader.glsl">
       <Filter>Laboratoare\StressTest1\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Laboratoare\StressTest2\Shaders\FragmentShader.glsl">
+      <Filter>Laboratoare\StressTest2\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Laboratoare\StressTest2\Shaders\VertexShader.glsl">
+      <Filter>Laboratoare\StressTest2\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Laboratoare\StressTest3\Shaders\FragmentShader.glsl">
+      <Filter>Laboratoare\StressTest3\Shaders</Filter>
+    </None>
+    <None Include="..\Source\Laboratoare\StressTest3\Shaders\VertexShader.glsl">
+      <Filter>Laboratoare\StressTest3\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

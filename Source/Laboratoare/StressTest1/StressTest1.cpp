@@ -409,29 +409,30 @@ void StressTest1::renderCilindri(float deltaTimeSeconds)
 
 void StressTest1::isCollided(Item* it)
 {
-	float pozitieAproximataX = (int)(it->pozitiaCurenta.x * 10 + .5);
-	pozitieAproximataX = (float)pozitieAproximataX / 10;
-
-	float pozitieAproximataY = (int)(it->pozitiaCurenta.y * 10 + .5);
-	pozitieAproximataY = (float)pozitieAproximataY / 10;
-
-	float pozitieAproximataZ = (int)(it->pozitiaCurenta.z * 10 + .5);
-	pozitieAproximataZ = (float)pozitieAproximataZ / 10;
-
-	if (fabs(pozitieAproximataX) + 0.6 > boxSize)
+	if (it->pozitiaCurenta.x > boxSize - .45)
 	{
+		it->pozitiaCurenta.x = boxSize - 0.5;
 		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
 	}
-
-	if (fabs(pozitieAproximataY) + 0.7 > boxSize && fabs(pozitieAproximataY) - 0.7 <= boxSize)
+	if (it->pozitiaCurenta.x < -boxSize + .45)
 	{
+		it->pozitiaCurenta.x = -boxSize + 0.5;
+		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
+	}
+	if (it->pozitiaCurenta.y < -boxSize + .45)
+	{
+		it->pozitiaCurenta.y = -boxSize + 0.5;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
-		it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
-
-	if (fabs(pozitieAproximataZ) + 0.6 > boxSize)
+	if (it->pozitiaCurenta.z < -boxSize + .45)
 	{
+		it->pozitiaCurenta.z = -boxSize + 0.5;
+		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
+	}
+	if (it->pozitiaCurenta.z > boxSize - .45)
+	{
+		it->pozitiaCurenta.z = boxSize - 0.5;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}
 }
