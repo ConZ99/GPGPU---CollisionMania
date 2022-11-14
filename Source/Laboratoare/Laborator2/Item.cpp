@@ -12,6 +12,7 @@ class Item {
 		glm::vec3 acceleratieGravitationala = glm::vec3(0, -4, 0);
 		glm::vec3 normala = glm::vec3(0, 0, 0);
 		int cadere = 0;
+		int aer = 1;
 		Mesh* mesh;											//meshul asignat obiectului
 
 		Item(int _idObiect, glm::vec3 _fortaAplicataCurent, glm::vec3 _pozitiaCurenta, Mesh* _mesh) {
