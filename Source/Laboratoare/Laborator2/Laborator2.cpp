@@ -57,10 +57,10 @@ void Laborator2::Init()
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
 
-	Item* cub = new Item(1, glm::vec3(-1, 0, 0), glm::vec3(1, 1, 0), meshes["cub"]);
+	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["cub"]);
 	cuburi.push_back(cub);
 
-	Item* obstacolFata = new Item(2, glm::vec3(2, 0, 0), glm::vec3(-3, 1, 0), meshes["obstacol"]);
+	Item* obstacolFata = new Item(2, glm::vec3(0, 4, 0), glm::vec3(0, 1, 0), meshes["obstacol"]);
 	cuburi.push_back(obstacolFata);
 
 	/*Item* obstacolDinDreapta = new Item(2, glm::vec3(-2, 0, 0), glm::vec3(3, 0, 0), meshes["obstacol"]);
@@ -418,30 +418,31 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 
 void Laborator2::isCollided(Item* it)
 {
-	if (it->pozitiaCurenta.x > boxSize - .45)
+	if (it->pozitiaCurenta.x > boxSize - .5)
 	{
-		it->pozitiaCurenta.x = boxSize - 0.5;
+		it->pozitiaCurenta.x = boxSize - 0.55;
 		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
 	}
-	if (it->pozitiaCurenta.x < -boxSize + .45)
+	if (it->pozitiaCurenta.x < -boxSize + .5)
 	{
-		it->pozitiaCurenta.x = -boxSize + 0.5;
+		it->pozitiaCurenta.x = -boxSize + 0.55;
 		it->fortaAplicataCurent = glm::vec3(-it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, it->fortaAplicataCurent.z);
 	}
-	if (it->pozitiaCurenta.y < -boxSize + .45)
+	if (it->pozitiaCurenta.y < -boxSize + .5)
 	{
-		it->pozitiaCurenta.y = -boxSize + 0.5;
+		it->pozitiaCurenta.y = -boxSize + 0.55;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
+		//it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
-	if (it->pozitiaCurenta.z < -boxSize + .45)
+	if (it->pozitiaCurenta.z < -boxSize + .5)
 	{
-		it->pozitiaCurenta.z = -boxSize + 0.5;
+		it->pozitiaCurenta.z = -boxSize + 0.55;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}
-	if (it->pozitiaCurenta.z > boxSize - .45)
+	if (it->pozitiaCurenta.z > boxSize - .5)
 	{
-		it->pozitiaCurenta.z = boxSize - 0.5;
+		it->pozitiaCurenta.z = boxSize - 0.55;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, it->fortaAplicataCurent.y, -it->fortaAplicataCurent.z);
 	}
 }
@@ -728,14 +729,12 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 				object->fortaAplicataCurent = glm::vec3(0, object->fortaAplicataCurent.y / 2, 0);
 				object->cadere = 1;
 				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
-				cout << (int)object->fortaAplicataCurent.y/2 << endl;
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 < 0)
 			{
 				object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 2, 0);
 				object->cadere = 1;
 				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
-				cout << object->fortaAplicataCurent.y << endl;
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 == 0)
 			{
