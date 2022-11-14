@@ -57,7 +57,7 @@ void Laborator2::Init()
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
 
-	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(0, 3, 0), meshes["cub"]);
+	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(.1, 3, 0), meshes["cub"]);
 	cuburi.push_back(cub);
 
 	Item* obstacolFata = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["obstacol"]);
@@ -453,7 +453,9 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 		{
 			if (whereCollided(cub, it) != -1)
 			{
+				
 				fata = fataLovita(cub, it, deltaTimeSeconds);
+				
 				done = true;
 				continue;
 			}
@@ -467,6 +469,7 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 			if (whereCollided(cub, it) != -1)
 			{
 				fata = fataLovita(cub, it, deltaTimeSeconds);
+				cout << fata << endl;
 				done = true;
 				continue;
 			}
@@ -584,7 +587,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	glm::vec3 objectForce = object->fortaAplicataCurent;
 	glm::vec3 obstacleForce = obstacle->fortaAplicataCurent;
 
-	if (planZ > planX && planZ > planY) {
+	if (planZ > planX && planZ > planY && planZ >= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.z = obstacle->pozitiaCurenta.z + 1;
 
@@ -601,7 +604,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 		return 1; //spate
 	}
-	if (planZ < planX && planZ < planY) {
+	if (planZ < planX && planZ < planY && planZ <= -0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.z = obstacle->pozitiaCurenta.z - 1;
 
@@ -638,7 +641,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 		return 2; //fata
 	}
-	if (planX > planZ && planX > planY) {
+	if (planX > planZ && planX > planY && planX >= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.x = obstacle->pozitiaCurenta.x + 1;
 
@@ -670,7 +673,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 		return 3; //stanga
 	}
-	if (planX < planZ && planX < planY) {
+	if (planX < planZ && planX < planY && planX <= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.x = obstacle->pozitiaCurenta.x - 1;
 
@@ -707,7 +710,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 		return 4; //dreapta
 	}
-	if (planY > planX && planY > planZ) {
+	if (planY > planX && planY > planZ && planY >= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.y = obstacle->pozitiaCurenta.y + 1;
 
@@ -759,7 +762,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 		return 5; //jos
 	}
-	if (planY < planX && planY < planZ) {
+	if (planY < planX && planY < planZ && planX <= 0.5) {
 		obstacle->pozitiaCurenta.y = object->pozitiaCurenta.y + 1;
 		//obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 2;
 		if (object->aer == 0)
@@ -809,6 +812,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 
 		return 6; //sus
 	}
+	return -1;
 }
 
 int Laborator2::whereCollided(Item* object, Item* obstacle)
