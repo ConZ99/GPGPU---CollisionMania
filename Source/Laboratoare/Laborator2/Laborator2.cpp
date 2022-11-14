@@ -57,7 +57,7 @@ void Laborator2::Init()
 		box = &Item(0, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["box"]);
 	}
 
-	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(.1, 3, 0), meshes["cub"]);
+	Item* cub = new Item(1, glm::vec3(0, 0, 0), glm::vec3(.4, 3, 0), meshes["cub"]);
 	cuburi.push_back(cub);
 
 	Item* obstacolFata = new Item(2, glm::vec3(0, 0, 0), glm::vec3(0, 0, 0), meshes["obstacol"]);
@@ -258,13 +258,14 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 
 		if (it->cadere == 0)
 			it->normala.y = it->fortaAplicataCurent.y;
-		else if(it->cadere == 1)
+		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
@@ -290,11 +291,12 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
@@ -311,11 +313,12 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
@@ -341,11 +344,12 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
@@ -367,6 +371,7 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
@@ -392,11 +397,12 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
@@ -423,6 +429,7 @@ void Laborator2::isCollided(Item* it)
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
 		//it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->aer = 0;
+		it->cadere = 2;
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
 	if (it->pozitiaCurenta.y > boxSize - .5)
@@ -453,14 +460,14 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 		{
 			if (whereCollided(cub, it) != -1)
 			{
-				
+
 				fata = fataLovita(cub, it, deltaTimeSeconds);
-				
+
 				done = true;
 				continue;
 			}
 		}
-		if (done){
+		if (done) {
 			done = false;
 			continue;
 		}
@@ -635,8 +642,8 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		}
 		else if (round(obstacle->fortaAplicataCurent.z + object->fortaAplicataCurent.z) == 0)
 		{
-			object->fortaAplicataCurent.z = object->fortaAplicataCurent.x/3;
-			obstacle->fortaAplicataCurent.z = -object->fortaAplicataCurent.x/3;
+			object->fortaAplicataCurent.z = object->fortaAplicataCurent.x / 3;
+			obstacle->fortaAplicataCurent.z = -object->fortaAplicataCurent.x / 3;
 		}
 
 		return 2; //fata
@@ -689,8 +696,8 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		}
 		else if (obstacle->fortaAplicataCurent.x < 0 && object->fortaAplicataCurent.x > 0)
 		{
-			object->fortaAplicataCurent.x = -objectForce.x/2 + obstacleForce.x / 2;
-			obstacle->fortaAplicataCurent.x = -obstacleForce.x/2 + objectForce.x / 2;
+			object->fortaAplicataCurent.x = -objectForce.x / 2 + obstacleForce.x / 2;
+			obstacle->fortaAplicataCurent.x = -obstacleForce.x / 2 + objectForce.x / 2;
 		}
 		else if (obstacle->fortaAplicataCurent.x < 0 && round(object->fortaAplicataCurent.x) == 0)
 		{
@@ -704,8 +711,8 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		}
 		else if (round(obstacle->fortaAplicataCurent.x + object->fortaAplicataCurent.x) == 0)
 		{
-			object->fortaAplicataCurent.x = object->fortaAplicataCurent.z/2;
-			obstacle->fortaAplicataCurent.x = object->fortaAplicataCurent.z/2;
+			object->fortaAplicataCurent.x = object->fortaAplicataCurent.z / 2;
+			obstacle->fortaAplicataCurent.x = object->fortaAplicataCurent.z / 2;
 		}
 
 		return 4; //dreapta
@@ -718,19 +725,17 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		{
 			if (round(object->fortaAplicataCurent.y) / 2 > 0)
 			{
-				object->fortaAplicataCurent = glm::vec3(0, object->fortaAplicataCurent.y / 1.5f, 0);
+				object->fortaAplicataCurent.y -= object->fortaAplicataCurent.y / 1.5f;
 				object->cadere = 1;
-				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 < 0)
 			{
-				object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 1.5f, 0);
+				object->fortaAplicataCurent.y = -object->fortaAplicataCurent.y / 1.5f;
 				object->cadere = 1;
-				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 == 0)
 			{
-				object->fortaAplicataCurent = glm::vec3(0, 0, 0);
+				object->fortaAplicataCurent.y = 0;
 				object->cadere = 2;
 			}
 		}
@@ -738,25 +743,30 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		{
 			if (obstacle->fortaAplicataCurent.y + obstacle->acceleratieGravitationala.y > 0)
 			{
-				if (int(object->fortaAplicataCurent.y / 4) != 0)
+				if (double(object->fortaAplicataCurent.y / 2) > 0)
 				{
-					object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 4, 0);
+					object->fortaAplicataCurent.y = object->fortaAplicataCurent.y / 2;
 					object->cadere = 1;
-					object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 
+				}
+				else if (double(object->fortaAplicataCurent.y / 2) < 0)
+				{
+					object->fortaAplicataCurent.y = -object->fortaAplicataCurent.y / 2;
+					object->cadere = 1;
 				}
 				else
 				{
-					object->fortaAplicataCurent = glm::vec3(0, 0, 0);
+					object->fortaAplicataCurent.y = 0;
 					object->cadere = 2;
+					object->aer = 0;
 				}
 
-				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y/2;
+				//obstacle->fortaAplicataCurent.y -= object->fortaAplicataCurent.y/2;
 			}
 
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
 			{
-				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y/3;
+				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y / 3;
 			}
 		}
 
@@ -769,44 +779,53 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 		{
 			if (round(obstacle->fortaAplicataCurent.y) / 2 > 0)
 			{
-				obstacle->fortaAplicataCurent = glm::vec3(0, obstacle->fortaAplicataCurent.y / 1.5f, 0);
+				obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y / 1.5f;
 				obstacle->cadere = 1;
-				obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
 			}
 			else if (round(obstacle->fortaAplicataCurent.y) / 2 < 0)
 			{
-				obstacle->fortaAplicataCurent = glm::vec3(0, -obstacle->fortaAplicataCurent.y / 1.5f, 0);
+				obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 1.5f;
 				obstacle->cadere = 1;
-				obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
 			}
 			else if (round(obstacle->fortaAplicataCurent.y) / 2 == 0)
 			{
-				obstacle->fortaAplicataCurent = glm::vec3(0, 0, 0);
+				obstacle->fortaAplicataCurent.y = 0;
 				obstacle->cadere = 2;
 			}
 		}
 		else {
 			if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y > 0)
 			{
-				if (int(obstacle->fortaAplicataCurent.y / 4) != 0)
+				if (double(obstacle->fortaAplicataCurent.y) / 1.5 < 0)
 				{
-					obstacle->fortaAplicataCurent = glm::vec3(0, -obstacle->fortaAplicataCurent.y / 4, 0);
+					obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 1.5;
 					obstacle->cadere = 1;
-					obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
+					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
+					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
+					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
+
+				}
+				else if (double(obstacle->fortaAplicataCurent.y) / 1.5 > 0)
+				{
+					obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y / 1.5;
+					obstacle->cadere = 1;
+					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
+					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
+					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
 
 				}
 				else
 				{
-					obstacle->fortaAplicataCurent = glm::vec3(0, 0, 0);
-					obstacle->cadere = 2;
+					object->fortaAplicataCurent.y = 0;
+					object->cadere = 2;
+					object->aer = 0;
 				}
 
-				obstacle->fortaAplicataCurent.y += obstacle->fortaAplicataCurent.y / 2;
+				//obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y/1.5;
 			}
-
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
 			{
-				obstacle->fortaAplicataCurent.y += obstacle->fortaAplicataCurent.y / 3;
+				obstacle->fortaAplicataCurent.y -= object->fortaAplicataCurent.y / 3;
 			}
 		}
 
@@ -860,7 +879,7 @@ int Laborator2::whereCollided(Item* object, Item* obstacle)
 
 	if (checkZ != 0 && checkX != 0 && checkY != 0)
 	{
-		
+
 		//avem coliziune
 		return 1;
 	}

@@ -267,11 +267,12 @@ void StressTest1::renderCuburi(float deltaTimeSeconds) {
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y/2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
@@ -297,11 +298,12 @@ void StressTest1::renderCuburi(float deltaTimeSeconds) {
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
@@ -318,11 +320,12 @@ void StressTest1::renderSfere(float deltaTimeSeconds)
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y/2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
@@ -348,11 +351,12 @@ void StressTest1::renderSfere(float deltaTimeSeconds)
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
@@ -374,6 +378,7 @@ void StressTest1::renderCilindri(float deltaTimeSeconds)
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		it->pozitiaCurenta += glm::vec3(it->fortaAplicataCurent.x, it->normala.y + it->acceleratieGravitationala.y, it->fortaAplicataCurent.z) * deltaTimeSeconds;
@@ -399,11 +404,12 @@ void StressTest1::renderCilindri(float deltaTimeSeconds)
 			it->normala.y = it->fortaAplicataCurent.y;
 		else if (it->cadere == 1)
 		{
-			it->normala.y = -it->acceleratieGravitationala.y + it->fortaAplicataCurent.y;
+			it->normala.y = -it->acceleratieGravitationala.y / 2 + it->fortaAplicataCurent.y;
 		}
 		else if (it->cadere == 2)
 		{
 			it->normala.y = -it->acceleratieGravitationala.y;
+			it->fortaAplicataCurent.y = 0;
 		}
 
 		RenderMesh(it->mesh, shaders["ShaderTema"], it->pozitiaCurenta);
@@ -430,6 +436,7 @@ void StressTest1::isCollided(Item* it)
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
 		//it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->aer = 0;
+		it->cadere = 2;
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
 	}
 	if (it->pozitiaCurenta.y > boxSize - .5)
@@ -460,7 +467,9 @@ void StressTest1::checkCollision(float deltaTimeSeconds)
 		{
 			if (whereCollided(cub, it) != -1)
 			{
+
 				fata = fataLovita(cub, it, deltaTimeSeconds);
+
 				done = true;
 				continue;
 			}
@@ -474,6 +483,7 @@ void StressTest1::checkCollision(float deltaTimeSeconds)
 			if (whereCollided(cub, it) != -1)
 			{
 				fata = fataLovita(cub, it, deltaTimeSeconds);
+				cout << fata << endl;
 				done = true;
 				continue;
 			}
@@ -591,7 +601,7 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 	glm::vec3 objectForce = object->fortaAplicataCurent;
 	glm::vec3 obstacleForce = obstacle->fortaAplicataCurent;
 
-	if (planZ > planX && planZ > planY) {
+	if (planZ > planX && planZ > planY && planZ >= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.z = obstacle->pozitiaCurenta.z + 1;
 
@@ -608,7 +618,7 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 
 		return 1; //spate
 	}
-	if (planZ < planX && planZ < planY) {
+	if (planZ < planX && planZ < planY && planZ <= -0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.z = obstacle->pozitiaCurenta.z - 1;
 
@@ -645,7 +655,7 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 
 		return 2; //fata
 	}
-	if (planX > planZ && planX > planY) {
+	if (planX > planZ && planX > planY && planX >= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.x = obstacle->pozitiaCurenta.x + 1;
 
@@ -677,7 +687,7 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 
 		return 3; //stanga
 	}
-	if (planX < planZ && planX < planY) {
+	if (planX < planZ && planX < planY && planX <= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.x = obstacle->pozitiaCurenta.x - 1;
 
@@ -714,7 +724,7 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 
 		return 4; //dreapta
 	}
-	if (planY > planX && planY > planZ) {
+	if (planY > planX && planY > planZ && planY >= 0.5) {
 		//putem baga aici aplicarea fortelor celor doua obiecte ex:
 		object->pozitiaCurenta.y = obstacle->pozitiaCurenta.y + 1;
 
@@ -722,19 +732,17 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 		{
 			if (round(object->fortaAplicataCurent.y) / 2 > 0)
 			{
-				object->fortaAplicataCurent = glm::vec3(0, object->fortaAplicataCurent.y / 1.5f, 0);
+				object->fortaAplicataCurent.y -= object->fortaAplicataCurent.y / 1.5f;
 				object->cadere = 1;
-				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 < 0)
 			{
-				object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 1.5f, 0);
+				object->fortaAplicataCurent.y = -object->fortaAplicataCurent.y / 1.5f;
 				object->cadere = 1;
-				object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 			}
 			else if (round(object->fortaAplicataCurent.y) / 2 == 0)
 			{
-				object->fortaAplicataCurent = glm::vec3(0, 0, 0);
+				object->fortaAplicataCurent.y = 0;
 				object->cadere = 2;
 			}
 		}
@@ -742,20 +750,25 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 		{
 			if (obstacle->fortaAplicataCurent.y + obstacle->acceleratieGravitationala.y > 0)
 			{
-				if (int(object->fortaAplicataCurent.y / 4) != 0)
+				if (double(object->fortaAplicataCurent.y / 2) > 0)
 				{
-					object->fortaAplicataCurent = glm::vec3(0, -object->fortaAplicataCurent.y / 4, 0);
+					object->fortaAplicataCurent.y = object->fortaAplicataCurent.y / 2;
 					object->cadere = 1;
-					object->normala = glm::vec3(0, -object->acceleratieGravitationala.y + object->fortaAplicataCurent.y, 0);
 
+				}
+				else if (double(object->fortaAplicataCurent.y / 2) < 0)
+				{
+					object->fortaAplicataCurent.y = -object->fortaAplicataCurent.y / 2;
+					object->cadere = 1;
 				}
 				else
 				{
-					object->fortaAplicataCurent = glm::vec3(0, 0, 0);
+					object->fortaAplicataCurent.y = 0;
 					object->cadere = 2;
+					object->aer = 0;
 				}
 
-				obstacle->fortaAplicataCurent.y += object->fortaAplicataCurent.y / 2;
+				//obstacle->fortaAplicataCurent.y -= object->fortaAplicataCurent.y/2;
 			}
 
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
@@ -766,56 +779,66 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 
 		return 5; //jos
 	}
-	if (planY < planX && planY < planZ) {
+	if (planY < planX && planY < planZ && planX <= 0.5) {
 		obstacle->pozitiaCurenta.y = object->pozitiaCurenta.y + 1;
 		//obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 2;
 		if (object->aer == 0)
 		{
 			if (round(obstacle->fortaAplicataCurent.y) / 2 > 0)
 			{
-				obstacle->fortaAplicataCurent = glm::vec3(0, obstacle->fortaAplicataCurent.y / 1.5f, 0);
+				obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y / 1.5f;
 				obstacle->cadere = 1;
-				obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
 			}
 			else if (round(obstacle->fortaAplicataCurent.y) / 2 < 0)
 			{
-				obstacle->fortaAplicataCurent = glm::vec3(0, -obstacle->fortaAplicataCurent.y / 1.5f, 0);
+				obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 1.5f;
 				obstacle->cadere = 1;
-				obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
 			}
 			else if (round(obstacle->fortaAplicataCurent.y) / 2 == 0)
 			{
-				obstacle->fortaAplicataCurent = glm::vec3(0, 0, 0);
+				obstacle->fortaAplicataCurent.y = 0;
 				obstacle->cadere = 2;
 			}
 		}
 		else {
 			if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y > 0)
 			{
-				if (int(obstacle->fortaAplicataCurent.y / 4) != 0)
+				if (double(obstacle->fortaAplicataCurent.y) / 1.5 < 0)
 				{
-					obstacle->fortaAplicataCurent = glm::vec3(0, -obstacle->fortaAplicataCurent.y / 4, 0);
+					obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 1.5;
 					obstacle->cadere = 1;
-					obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
+					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
+					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
+					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
+
+				}
+				else if (double(obstacle->fortaAplicataCurent.y) / 1.5 > 0)
+				{
+					obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y / 1.5;
+					obstacle->cadere = 1;
+					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
+					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
+					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
 
 				}
 				else
 				{
-					obstacle->fortaAplicataCurent = glm::vec3(0, 0, 0);
-					obstacle->cadere = 2;
+					object->fortaAplicataCurent.y = 0;
+					object->cadere = 2;
+					object->aer = 0;
 				}
 
-				obstacle->fortaAplicataCurent.y += obstacle->fortaAplicataCurent.y / 2;
+				//obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y/1.5;
 			}
-
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
 			{
-				obstacle->fortaAplicataCurent.y += obstacle->fortaAplicataCurent.y / 3;
+				obstacle->fortaAplicataCurent.y -= object->fortaAplicataCurent.y / 3;
 			}
 		}
 
 		return 6; //sus
 	}
+	return -1;
 }
 
 int StressTest1::whereCollided(Item* object, Item* obstacle)
