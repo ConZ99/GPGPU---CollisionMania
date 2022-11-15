@@ -34,7 +34,7 @@
     <ClCompile Include="..\Source\Core\World.cpp" />
     <ClCompile Include="..\Source\include\gl.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Item.cpp" />
-    <ClCompile Include="..\Source\Laboratoare\Laborator2\Laborator2.cpp" />
+    <ClCompile Include="..\Source\Laboratoare\Laborator2\Etapa1.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Obiecte.cpp" />
     <ClCompile Include="..\Source\Laboratoare\Laborator2\Transformari.cpp" />
     <ClCompile Include="..\Source\Laboratoare\StressTest1\Item.cpp" />
@@ -74,7 +74,7 @@
     <ClInclude Include="..\Source\include\math.h" />
     <ClInclude Include="..\Source\include\utils.h" />
     <ClInclude Include="..\Source\Laboratoare\LabList.h" />
-    <ClInclude Include="..\Source\Laboratoare\Laborator2\Laborator2.h" />
+    <ClInclude Include="..\Source\Laboratoare\Laborator2\Etapa1.h" />
     <ClInclude Include="..\Source\Laboratoare\Laborator2\Obiecte.h" />
     <ClInclude Include="..\Source\Laboratoare\Laborator2\Transformari.h" />
     <ClInclude Include="..\Source\Laboratoare\StressTest1\StressTest1.h" />

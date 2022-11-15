@@ -1,4 +1,4 @@
-#include "Laborator2.h"
+#include "Etapa1.h"
 
 #include <vector>
 #include <iostream>
@@ -11,16 +11,16 @@
 
 using namespace std;
 
-Laborator2::Laborator2()
+Etapa1::Etapa1()
 {
 }
 
-Laborator2::~Laborator2()
+Etapa1::~Etapa1()
 {
 
 }
 
-void Laborator2::Init()
+void Etapa1::Init()
 {
 	{
 		Shader* shader = new Shader("ShaderTema");
@@ -64,7 +64,7 @@ void Laborator2::Init()
 	cuburi.push_back(obstacolFata);
 }
 
-void Laborator2::FrameStart()
+void Etapa1::FrameStart()
 {
 	// clears the color buffer (using the previously set color) and depth buffer
 	glClearColor(0, 0, 0, 1);
@@ -75,7 +75,7 @@ void Laborator2::FrameStart()
 	glViewport(0, 0, resolution.x, resolution.y);
 }
 
-void Laborator2::Update(float deltaTimeSeconds)
+void Etapa1::Update(float deltaTimeSeconds)
 {
 	glLineWidth(3);
 	glPointSize(5);
@@ -96,12 +96,12 @@ void Laborator2::Update(float deltaTimeSeconds)
 	glDisable(GL_CULL_FACE);
 }
 
-void Laborator2::FrameEnd()
+void Etapa1::FrameEnd()
 {
 	DrawCoordinatSystem();
 }
 
-bool Laborator2::coordsAreNotValid(glm::vec3 pos)
+bool Etapa1::coordsAreNotValid(glm::vec3 pos)
 {
 	for (Item* it : cuburi) {
 		if (pos.x > it->pozitiaCurenta.x - 1 && pos.x < it->pozitiaCurenta.x + 1)
@@ -124,7 +124,7 @@ bool Laborator2::coordsAreNotValid(glm::vec3 pos)
 	return false;
 }
 
-glm::vec3 Laborator2::GetCoords()
+glm::vec3 Etapa1::GetCoords()
 {
 	glm::vec3 coords;
 	coords.x = (rand() % ((int)boxSize * 2 - 6)) - boxSize + 3;
@@ -140,7 +140,7 @@ glm::vec3 Laborator2::GetCoords()
 	return coords;
 }
 
-glm::vec3 Laborator2::ApplyRandomForce()
+glm::vec3 Etapa1::ApplyRandomForce()
 {
 	glm::vec3 force;
 	force.x = (rand() % 2 - 1) * 5;
@@ -150,43 +150,43 @@ glm::vec3 Laborator2::ApplyRandomForce()
 	return force;
 }
 
-void Laborator2::AddCub(glm::vec3 pos, glm::vec3 force)
+void Etapa1::AddCub(glm::vec3 pos, glm::vec3 force)
 {
 	Item* cub = new Item(objId, force, pos, meshes["cub"]);
 	cuburi.push_back(cub);
 	objId++;
 }
 
-void Laborator2::AddSfera(glm::vec3 pos, glm::vec3 force)
+void Etapa1::AddSfera(glm::vec3 pos, glm::vec3 force)
 {
 	Item* sfera = new Item(objId, force, pos, meshes["sfera"]);
 	sfere.push_back(sfera);
 	objId++;
 }
 
-void Laborator2::AddCilindru(glm::vec3 pos, glm::vec3 force)
+void Etapa1::AddCilindru(glm::vec3 pos, glm::vec3 force)
 {
 	Item* cilindru = new Item(objId, force, pos, meshes["cilindru"]);
 	cilindri.push_back(cilindru);
 	objId++;
 }
 
-void Laborator2::OnInputUpdate(float deltaTime, int mods)
+void Etapa1::OnInputUpdate(float deltaTime, int mods)
 {
 
 }
 
-void Laborator2::OnKeyPress(int key, int mods)
+void Etapa1::OnKeyPress(int key, int mods)
 {
-	if (key == GLFW_KEY_P)
+	if (key == GLFW_KEY_I)
 	{
 		AddCub(GetCoords(), ApplyRandomForce());
 	}
-	if (key == GLFW_KEY_L)
+	if (key == GLFW_KEY_O)
 	{
 		AddSfera(GetCoords(), ApplyRandomForce());
 	}
-	if (key == GLFW_KEY_M)
+	if (key == GLFW_KEY_P)
 	{
 		AddCilindru(GetCoords(), ApplyRandomForce());
 	}
@@ -222,35 +222,35 @@ void Laborator2::OnKeyPress(int key, int mods)
 	}
 }
 
-void Laborator2::OnKeyRelease(int key, int mods)
+void Etapa1::OnKeyRelease(int key, int mods)
 {
 	// add key release event
 }
 
-void Laborator2::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
+void Etapa1::OnMouseMove(int mouseX, int mouseY, int deltaX, int deltaY)
 {
 	// add mouse move event
 }
 
-void Laborator2::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
+void Etapa1::OnMouseBtnPress(int mouseX, int mouseY, int button, int mods)
 {
 	// add mouse button press event
 }
 
-void Laborator2::OnMouseBtnRelease(int mouseX, int mouseY, int button, int mods)
+void Etapa1::OnMouseBtnRelease(int mouseX, int mouseY, int button, int mods)
 {
 	// add mouse button release event
 }
 
-void Laborator2::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
+void Etapa1::OnMouseScroll(int mouseX, int mouseY, int offsetX, int offsetY)
 {
 }
 
-void Laborator2::OnWindowResize(int width, int height)
+void Etapa1::OnWindowResize(int width, int height)
 {
 }
 
-void Laborator2::renderCuburi(float deltaTimeSeconds) {
+void Etapa1::renderCuburi(float deltaTimeSeconds) {
 	for (Item* it : cuburi) {
 		//verifica coliziuni
 		//schimba pozitia curenta bazat pe forte
@@ -303,7 +303,7 @@ void Laborator2::renderCuburi(float deltaTimeSeconds) {
 	}
 }
 
-void Laborator2::renderSfere(float deltaTimeSeconds)
+void Etapa1::renderSfere(float deltaTimeSeconds)
 {
 	for (Item* it : sfere) {
 		//verifica coliziuni
@@ -356,7 +356,7 @@ void Laborator2::renderSfere(float deltaTimeSeconds)
 	}
 }
 
-void Laborator2::renderCilindri(float deltaTimeSeconds)
+void Etapa1::renderCilindri(float deltaTimeSeconds)
 {
 	for (Item* it : cilindri) {
 		//verifica coliziuni
@@ -411,7 +411,7 @@ void Laborator2::renderCilindri(float deltaTimeSeconds)
 
 //trebuie sa sara putin + sa se opreasca la 0
 
-void Laborator2::isCollided(Item* it)
+void Etapa1::isCollided(Item* it)
 {
 	if (it->pozitiaCurenta.x > boxSize - .5)
 	{
@@ -427,7 +427,6 @@ void Laborator2::isCollided(Item* it)
 	{
 		it->pozitiaCurenta.y = -boxSize + 0.55;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
-		//it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->aer = 0;
 		it->cadere = 2;
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
@@ -449,7 +448,7 @@ void Laborator2::isCollided(Item* it)
 	}
 }
 
-void Laborator2::checkCollision(float deltaTimeSeconds)
+void Etapa1::checkCollision(float deltaTimeSeconds)
 {
 	//verificam fiecare sfera cu restul itemelor inclusiv alte sfere
 	bool done = false;
@@ -476,7 +475,6 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 			if (whereCollided(cub, it) != -1)
 			{
 				fata = fataLovita(cub, it, deltaTimeSeconds);
-				cout << fata << endl;
 				done = true;
 				continue;
 			}
@@ -585,7 +583,7 @@ void Laborator2::checkCollision(float deltaTimeSeconds)
 	}
 }
 
-int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
+int Etapa1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 {
 	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
 	float planX = object->pozitiaCurenta.x - obstacle->pozitiaCurenta.x;
@@ -760,8 +758,6 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 					object->cadere = 2;
 					object->aer = 0;
 				}
-
-				//obstacle->fortaAplicataCurent.y -= object->fortaAplicataCurent.y/2;
 			}
 
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
@@ -774,7 +770,6 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	}
 	if (planY < planX && planY < planZ && planX <= 0.5) {
 		obstacle->pozitiaCurenta.y = object->pozitiaCurenta.y + 1;
-		//obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 2;
 		if (object->aer == 0)
 		{
 			if (round(obstacle->fortaAplicataCurent.y) / 2 > 0)
@@ -800,8 +795,6 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 				{
 					obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 1.5;
 					obstacle->cadere = 1;
-					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
-					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
 					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
 
 				}
@@ -809,8 +802,6 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 				{
 					obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y / 1.5;
 					obstacle->cadere = 1;
-					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
-					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
 					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
 
 				}
@@ -834,7 +825,7 @@ int Laborator2::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds)
 	return -1;
 }
 
-int Laborator2::whereCollided(Item* object, Item* obstacle)
+int Etapa1::whereCollided(Item* object, Item* obstacle)
 {
 	float planZ = object->pozitiaCurenta.z - obstacle->pozitiaCurenta.z;
 	int checkZ = 0; //-1 fata; 1 spate

@@ -185,18 +185,6 @@ void StressTest1::OnInputUpdate(float deltaTime, int mods)
 
 void StressTest1::OnKeyPress(int key, int mods)
 {
-	if (key == GLFW_KEY_P)
-	{
-		AddCub(GetCoords(), ApplyRandomForce());
-	}
-	if (key == GLFW_KEY_L)
-	{
-		AddSfera(GetCoords(), ApplyRandomForce());
-	}
-	if (key == GLFW_KEY_M)
-	{
-		AddCilindru(GetCoords(), ApplyRandomForce());
-	}
 	if (key == GLFW_KEY_R)
 	{
 		for (Item* it : cuburi)
@@ -434,7 +422,6 @@ void StressTest1::isCollided(Item* it)
 	{
 		it->pozitiaCurenta.y = -boxSize + 0.55;
 		it->fortaAplicataCurent = glm::vec3(it->fortaAplicataCurent.x, 0, it->fortaAplicataCurent.z);
-		//it->acceleratieGravitationala = glm::vec3(0, 0, 0);
 		it->aer = 0;
 		it->cadere = 2;
 		it->frecarea = glm::vec3(frecareaCuTerenul.x, 0, frecareaCuTerenul.z);
@@ -483,7 +470,6 @@ void StressTest1::checkCollision(float deltaTimeSeconds)
 			if (whereCollided(cub, it) != -1)
 			{
 				fata = fataLovita(cub, it, deltaTimeSeconds);
-				cout << fata << endl;
 				done = true;
 				continue;
 			}
@@ -767,8 +753,6 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 					object->cadere = 2;
 					object->aer = 0;
 				}
-
-				//obstacle->fortaAplicataCurent.y -= object->fortaAplicataCurent.y/2;
 			}
 
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
@@ -781,7 +765,6 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 	}
 	if (planY < planX && planY < planZ && planX <= 0.5) {
 		obstacle->pozitiaCurenta.y = object->pozitiaCurenta.y + 1;
-		//obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 2;
 		if (object->aer == 0)
 		{
 			if (round(obstacle->fortaAplicataCurent.y) / 2 > 0)
@@ -807,8 +790,6 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 				{
 					obstacle->fortaAplicataCurent.y = -obstacle->fortaAplicataCurent.y / 1.5;
 					obstacle->cadere = 1;
-					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
-					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
 					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
 
 				}
@@ -816,8 +797,6 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 				{
 					obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y / 1.5;
 					obstacle->cadere = 1;
-					//obstacle->normala = glm::vec3(0, -obstacle->acceleratieGravitationala.y + obstacle->fortaAplicataCurent.y, 0);
-					cout << "FSDF: " << obstacle->fortaAplicataCurent.y << endl;
 					object->fortaAplicataCurent.y -= obstacle->fortaAplicataCurent.y;
 
 				}
@@ -827,8 +806,6 @@ int StressTest1::fataLovita(Item* object, Item* obstacle, float deltaTimeSeconds
 					object->cadere = 2;
 					object->aer = 0;
 				}
-
-				//obstacle->fortaAplicataCurent.y = obstacle->fortaAplicataCurent.y/1.5;
 			}
 			else if (object->fortaAplicataCurent.y + object->acceleratieGravitationala.y < 0)
 			{

@@ -4,11 +4,11 @@
 #include <Core/Engine.h>
 #include "Item.cpp"
 
-class Laborator2 : public SimpleScene
+class Etapa1 : public SimpleScene
 {
 	public:
-		Laborator2();
-		~Laborator2();
+		Etapa1();
+		~Etapa1();
 
 		void Init() override;
 		float x= 0.0f, z = 0.0f, y = 0.0f;
